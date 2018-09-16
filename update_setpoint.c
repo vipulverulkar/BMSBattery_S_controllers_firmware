@@ -105,7 +105,7 @@ uint16_t update_setpoint (uint16_t speed, uint16_t PAS, uint16_t sumtorque, uint
             if (ui32_setpoint>255){ui32_setpoint=255;}
             ui8_control_state=3;
 #ifdef DIAGNOSTICS            
-      printf("you are braking!\r\n");REGEN_CURRENT_MAX_VALUE
+      printf("you are braking!\r\n");
 #endif            
   }
 
