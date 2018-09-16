@@ -17,9 +17,9 @@
 #include "config.h"
 #include "display_kingmeter.h"
 #include "adc.h"
-#include "update_setpoint.h"
-#include "BOcontrollerState.h"
-
+//#include "update_setpoint.h" FIXME, not needed anymore?
+#include "ACAcontrollerState.h"
+#include "ACAcommons.h"
 
 uint8_t ui8_counter = 0;
 uint8_t ui8_half_rotation_flag = 0;
@@ -139,7 +139,7 @@ void hall_sensors_read_and_action (void)
 #endif
 
 
-      ui8_motor_rotor_absolute_position = ANGLE_180 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+      ui8_motor_rotor_absolute_position = ANGLE_180 + ui8_s_motor_angle;
       break;
 
       case 1: //rotor position 240 degree, do FOC control
@@ -169,9 +169,9 @@ void hall_sensors_read_and_action (void)
 
       if (ui8_motor_state != MOTOR_STATE_RUNNING_INTERPOLATION_360_DEGREES)
       {
-	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_300 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_300 + ui8_s_motor_angle;
 	  else*/
-	  ui8_motor_rotor_absolute_position = ANGLE_240 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  ui8_motor_rotor_absolute_position = ANGLE_240 + ui8_s_motor_angle;
       }
       break;
 
@@ -183,9 +183,9 @@ void hall_sensors_read_and_action (void)
       if (ui8_motor_state != MOTOR_STATE_RUNNING_INTERPOLATION_360_DEGREES)
       {
 
-	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_1 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_1 + ui8_s_motor_angle;
 	  else*/
-	  ui8_motor_rotor_absolute_position = ANGLE_300 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  ui8_motor_rotor_absolute_position = ANGLE_300 + ui8_s_motor_angle;
       }
       break;
 
@@ -197,9 +197,9 @@ void hall_sensors_read_and_action (void)
 	debug_pin_reset ();
       if (ui8_motor_state != MOTOR_STATE_RUNNING_INTERPOLATION_360_DEGREES)
       {
-	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_60 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_60 + ui8_s_motor_angle;
 	  else */
-	  ui8_motor_rotor_absolute_position = ANGLE_1 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  ui8_motor_rotor_absolute_position = ANGLE_1 + ui8_s_motor_angle;
       }
       break;
 
@@ -210,9 +210,9 @@ void hall_sensors_read_and_action (void)
 
       if (ui8_motor_state != MOTOR_STATE_RUNNING_INTERPOLATION_360_DEGREES)
       {
-	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_120 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_120 + ui8_s_motor_angle;
 	  else */
-	  ui8_motor_rotor_absolute_position = ANGLE_60 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  ui8_motor_rotor_absolute_position = ANGLE_60 + ui8_s_motor_angle;
       }
       break;
 
@@ -223,9 +223,9 @@ void hall_sensors_read_and_action (void)
 
       if (ui8_motor_state != MOTOR_STATE_RUNNING_INTERPOLATION_360_DEGREES)
       {
-	 /* if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_180 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	 /* if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_180 + ui8_s_motor_angle;
 	  else */
-	  ui8_motor_rotor_absolute_position = ANGLE_120 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  ui8_motor_rotor_absolute_position = ANGLE_120 + ui8_s_motor_angle;
       }
       break;
 
@@ -241,8 +241,8 @@ void hall_sensors_read_and_action (void)
 // runs every 64us (PWM frequency)
 void motor_fast_loop (void)
 {
-  if(ui16_SPEED_Counter < 65530) {ui16_SPEED_Counter++;} 	//increase SPEED Counter but avoid overflow
-  if(ui16_PAS_Counter < 65530) {ui16_PAS_Counter++;}		//increase PAS Counter but avoid overflow
+  if(ui16_time_ticks_for_speed_calculation < 65530) {ui16_time_ticks_for_speed_calculation++;} 	//increase SPEED Counter but avoid overflow
+  if(ui16_time_ticks_for_pas_calculation < 65530) {ui16_time_ticks_for_pas_calculation++;}		//increase PAS Counter but avoid overflow
   if (GPIO_ReadInputPin(PAS__PORT, PAS__PIN) && ui16_PAS_High_Counter<65530){ui16_PAS_High_Counter++;}
 
 

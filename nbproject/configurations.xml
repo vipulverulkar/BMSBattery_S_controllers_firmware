@@ -62,12 +62,13 @@
           <in>stm8s_wwdg.c</in>
         </df>
       </df>
-      <in>BOcontrollerState.c</in>
-      <in>BOcontrollerState.h</in>
+      <in>ACAcommons.c</in>
+      <in>ACAcommons.h</in>
+      <in>ACAcontrollerState.c</in>
+      <in>ACAcontrollerState.h</in>
+      <in>ACAsetPoint.c</in>
       <in>BOdisplay.c</in>
       <in>BOdisplay.h</in>
-      <in>BOeeprom.c</in>
-      <in>BOeeprom.h</in>
       <in>PAS.c</in>
       <in>PAS.h</in>
       <in>SPEED.c</in>
@@ -98,8 +99,6 @@
       <in>uart.h</in>
       <in>update_setpoint.c</in>
       <in>update_setpoint.h</in>
-      <in>utils.c</in>
-      <in>utils.h</in>
     </df>
     <logicalFolder name="StdPeriphLib"
                    displayName="StdPeriphLib"
@@ -139,17 +138,19 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="BOcontrollerState.c" ex="false" tool="0" flavor2="0">
+      <item path="ACAcommons.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="BOcontrollerState.h" ex="false" tool="3" flavor2="0">
+      <item path="ACAcommons.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ACAcontrollerState.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="ACAcontrollerState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ACAsetPoint.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="BOdisplay.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="BOdisplay.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="BOeeprom.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="BOeeprom.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PAS.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -320,10 +321,6 @@
       <item path="update_setpoint.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="update_setpoint.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="utils.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="utils.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

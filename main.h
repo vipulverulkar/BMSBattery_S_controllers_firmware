@@ -55,12 +55,6 @@
 #define ADC_PHASE_B_CURRENT_STEP 21 // 0.021 * 1000 = 21
 #define ADC_PHASE_B_CURRENT_FACTOR_MA 21 // 0,030273437 * 1000 * 0.707
 
-#if MOTOR_TYPE == MOTOR_TYPE_Q85
-//#define MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT 77// best value found (at max speed, minimum current and power supply voltage keeps the same)
-//#define MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT 214// value for ui8_position_correction_value = 0 initially @ shenyi middrive motor
-#elif MOTOR_TYPE == MOTOR_TYPE_EUC2
-#define MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT 92 // best value found
-#endif
 
 #define PWM_CYCLES_COUNTER_MAX 3000 // bei h�heren Werten wird angenommen, der Motor steht.
 
@@ -84,17 +78,9 @@
 extern uint16_t ui16_log1;
 extern uint16_t ui16_log2;
 extern uint8_t ui8_log;
-extern uint8_t ui8_adc_read_throttle_busy;
-extern uint16_t ui16_SPEED_Counter; 	//Counter for bike speed
-extern uint16_t ui16_SPEED; 		//Speed duration of one wheel revolution (tics * 64us)
-extern uint16_t ui16_PAS_Counter;	//Counter for cadence
-extern uint16_t ui16_PAS_High_Counter;
-extern uint8_t ui8_PAS_Flag;		//Flag for PAS Interrupt detected
-extern uint8_t ui8_SPEED_Flag;		//Flag for PAS Interrupt detected
 extern uint8_t ui8_slowloop_flag;	//Flag for slow loop timing
-extern uint8_t ui8_assistlevel_global;
 extern uint8_t ui8_msg_received;
-extern uint8_t ui8_SPEED_Tag; 		//flag for SPEED update in update_setpoint
+
 
 uint8_t update_advance_angle();
 #endif
