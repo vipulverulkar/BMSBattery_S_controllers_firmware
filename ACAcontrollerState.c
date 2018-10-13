@@ -69,11 +69,15 @@ uint32_t ui32_erps_filtered = 0; //filtered value of erps
 uint16_t ui16_virtual_erps_speed = 0;
 uint16_t ui16_BatteryCurrent = 0; //Battery Current read from ADC8
 uint8_t ui8_position_correction_value = 127; // in 360/256 degrees
-uint8_t ui8_ADC_iq_current_target = 127; // advance angle testing
+uint8_t ui8_correction_at_angle = 127; // advance angle testing
 uint16_t ui16_ADC_iq_current = 0;
 uint16_t ui16_ADC_iq_current_filtered = 0;
 uint8_t ui8_control_state = 0;
 uint8_t ui8_uptime = 0;
+
+uint8_t ui8_variableDebugA = 0;
+uint8_t ui8_variableDebugB = 0;
+uint8_t ui8_variableDebugC = 0;
 
 int8_t i8_motor_temperature = 0;
 
@@ -94,7 +98,6 @@ uint8_t ui8_offroad_counter = 0; //counter for offroad switching procedure
 
 uint16_t ui16_aca_flags = 0; //if throttle input should be bases on assist level and other flags
 
-uint8_t ui8_adc_read_throttle_busy = 0;
 uint16_t ui16_torque[NUMBER_OF_PAS_MAGS]; //array for torque values of one crank revolution
 uint8_t ui8_torque_index = 0; //counter for torque array
 
@@ -171,8 +174,8 @@ void controllerstate_init(void) {
     if (eepromVal > 0) ui16_s_ramp_start = eepromVal << 6;
     eepromVal = eeprom_read(OFFSET_MOTOR_ANGLE);
     if (eepromVal > 0) ui8_s_motor_angle = eepromVal;
-	eepromVal = eeprom_read(OFFSET_CORRECTION_ADC_CURRENT_TARGET);
-    if (eepromVal > 0) ui8_ADC_iq_current_target = eepromVal;
+	eepromVal = eeprom_read(OFFSET_CORRECTION_AT_ANGLE);
+    if (eepromVal > 0) ui8_correction_at_angle = eepromVal;
 
     for (di = 0; di < 6; di++) {
         uint8_t_hall_order[di] = 0;

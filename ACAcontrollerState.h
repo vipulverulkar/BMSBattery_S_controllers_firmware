@@ -52,7 +52,7 @@ extern uint16_t ui16_virtual_erps_speed;
 extern uint32_t ui32_erps_filtered; //filtered value of erps
 extern uint16_t ui16_BatteryCurrent;
 extern uint8_t ui8_position_correction_value;
-extern uint8_t ui8_ADC_iq_current_target;
+extern uint8_t ui8_correction_at_angle;
 extern uint16_t ui16_ADC_iq_current;
 extern uint16_t ui16_ADC_iq_current_filtered;
 extern uint8_t ui8_speedlimit_kph;
@@ -60,6 +60,10 @@ extern uint8_t ui8_speedlimit_without_pas_kph;
 extern uint8_t ui8_speedlimit_actual_kph;
 extern uint8_t ui8_speedlimit_with_throttle_override_kph;
 extern uint8_t ui8_uptime;
+
+extern uint8_t ui8_variableDebugA;
+extern uint8_t ui8_variableDebugB;
+extern uint8_t ui8_variableDebugC;
 
 extern int8_t i8_motor_temperature;
 
@@ -82,8 +86,6 @@ extern uint16_t ui16_time_ticks_between_speed_interrupt; //Speed duration of one
 extern uint8_t ui8_offroad_counter;
 
 extern uint16_t ui16_aca_flags;
-
-extern uint8_t ui8_adc_read_throttle_busy;
 
 extern uint16_t ui16_torque[NUMBER_OF_PAS_MAGS];
 extern uint8_t ui8_torque_index;
@@ -133,7 +135,8 @@ typedef enum {
 	DYNAMIC_ASSIST_LEVEL = ((uint16_t) 512),
 	PWM_AUTO_OFF = ((uint16_t) 1024),
 			
-	TQ_SENSOR_MODE = ((uint16_t) 2048)
+	TQ_SENSOR_MODE = ((uint16_t) 2048),
+	ANGLE_CORRECTION_ENABLED = ((uint16_t) 4096)
 } ACA_FLAGS;
 
 #endif /* BOCONTROLLERSTATE_H */
