@@ -24,6 +24,7 @@
 #include "pwm.h"
 #include "PAS.h"
 #include "SPEED.h"
+#include "lights.h"
 //#include "update_setpoint.h"
 #include "ACAsetPoint.h"
 #include "config.h"
@@ -102,6 +103,7 @@ int main(void) {
 	timer2_init();
 	uart_init();
 	eeprom_init();
+	lights_init ();
 	controllerstate_init();
 	initErpsRatio();
 	pwm_init();
@@ -170,6 +172,11 @@ int main(void) {
 			pwm_set_duty_cycle((uint8_t) ui16_setpoint);
 
 			//pwm_set_duty_cycle ((uint8_t)ui16_sum_throttle);
+#ifdef DIAGNOSTICS
+			/****************************************************************************/
+			//Lights test for PC4 on KT36 pswpower controller
+			lights_set_state(brake_is_set());
+#endif
 
 			/****************************************************************************/
 			//very slow loop for communication

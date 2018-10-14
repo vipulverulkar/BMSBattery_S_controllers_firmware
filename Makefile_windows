@@ -54,7 +54,8 @@ EXTRASRCS = \
 	PAS.c \
 	SPEED.c \
 	display.c \
-	display_kingmeter.c
+	display_kingmeter.c \
+	lights.c
 
 HEADERS = BOdisplay.h ACAcommons.h ACAsetPoint.h ACAcontrollerState.h ACAeeprom.h adc.h  brake.h  cruise_control.h  gpio.h  interrupts.h  main.h  motor.h  pwm.h  timers.h  uart.h  PAS.h  SPEED.h  
 
