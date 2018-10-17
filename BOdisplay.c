@@ -34,7 +34,7 @@
 //:304100305F\r\n 
 //  0 A 0 (as chars)
 uint8_t ui8_rx_buffer[17]; // modbus ascii with max 8 bytes payload (array including padding) // modbus rtu uses only 11 bytes
-uint8_t ui8_tx_buffer[53]; // (max 24*8bit key + 24*8bit data points + bounced checksum(+ key) + address + function + checksum) (array excluding padding)
+uint8_t ui8_tx_buffer[65]; // (max 30*8bit key + 30*8bit data points + bounced checksum(+ key) + address + function + checksum) (array excluding padding)
 uint8_t ui8_rx_converted_buffer[7]; // for decoded ascii values
 
 uint8_t ui8_rx_buffer_counter = 0;
@@ -111,7 +111,7 @@ void signPackage(void) {
 	ui8_tx_buffer_counter++;
 }
 
-void addConfigStateInfos(void) {
+void addConfigStateInfosA(void) {
 
 	// float casts might be costly but they are only requested once every 10 seconds
 	addPayload(CODE_ERPS_FACTOR, (uint16_t) (((float) wheel_circumference) / ((float) GEAR_RATIO)));
@@ -136,8 +136,23 @@ void addConfigStateInfos(void) {
 	addPayload(CODE_MAX_BAT_CURRENT_HIGH_BYTE, ui16_battery_current_max_value >> 8);
 	addPayload(CODE_MAX_BAT_CURRENT, ui16_battery_current_max_value);
 	addPayload(CODE_CORRECTION_AT_ANGLE, ui8_correction_at_angle);
-	// 1 more elements left/avail (max24)
 
+	// 7 more elements left/avail (max30)
+
+}
+
+void addConfigStateInfosB(void) {
+
+	addPayload(CODE_HALL_ANGLE_4_0, ui8_s_hall_angle4_0);
+	addPayload(CODE_HALL_ANGLE_6_60, ui8_s_hall_angle6_60);
+	addPayload(CODE_HALL_ANGLE_2_120, ui8_s_hall_angle2_120);
+	addPayload(CODE_HALL_ANGLE_3_180, ui8_s_hall_angle3_180);
+	addPayload(CODE_HALL_ANGLE_1_240, ui8_s_hall_angle1_240);
+	addPayload(CODE_HALL_ANGLE_5_300, ui8_s_hall_angle5_300);
+
+	addPayload(CODE_ADC_BATTERY_VOLTAGE_CALIB, ui8_s_battery_voltage_calibration);
+
+	// 23 more elements left/avail (max30)
 }
 
 void addHallStateInfos(void) {
@@ -159,12 +174,12 @@ void addHallStateInfos(void) {
 	addPayload(CODE_60_DEG_PWM_CYCLES + 0x03, uint8_t_60deg_pwm_cycles[3]);
 	addPayload(CODE_60_DEG_PWM_CYCLES + 0x04, uint8_t_60deg_pwm_cycles[4]);
 	addPayload(CODE_60_DEG_PWM_CYCLES + 0x05, uint8_t_60deg_pwm_cycles[5]);
-	
+
 	addPayload(CODE_VAR_DEBUG_A, ui8_variableDebugA);
 	addPayload(CODE_VAR_DEBUG_B, ui8_variableDebugB);
 	addPayload(CODE_VAR_DEBUG_C, ui8_variableDebugC);
 
-	// 3 more elements left/avail (max24)
+	// 9 more elements left/avail (max30)
 }
 
 void addDetailStateInfos(void) {
@@ -186,7 +201,7 @@ void addDetailStateInfos(void) {
 	addPayload(CODE_VER_SPEED_HIGH_BYTE, ui16_virtual_erps_speed >> 8);
 	addPayload(CODE_VER_SPEED, ui16_virtual_erps_speed);
 
-	// 5 more elements left/avail (max24)
+	// 9 more elements left/avail (max30)
 }
 
 void addBasicStateInfos(void) {
@@ -210,7 +225,7 @@ void addBasicStateInfos(void) {
 	addPayload(CODE_SETPOINT_STATE, ui8_control_state);
 	addPayload(CODE_UPTIME, ui8_uptime);
 
-	// 5 more elements left/avail (max24)
+	// 9 more elements left/avail (max30)
 }
 
 void gatherDynamicPayload(uint8_t function) {
@@ -231,7 +246,11 @@ void gatherDynamicPayload(uint8_t function) {
 
 void gatherStaticPayload(uint8_t function) {
 	switch (function) {
-		case FUN_CONFIG_INFOS:addConfigStateInfos();
+		case FUN_CONFIG_INFOS_A:
+			addConfigStateInfosA();
+			break;
+		case FUN_CONFIG_INFOS_B:
+			addConfigStateInfosB();
 			break;
 		default:
 			addPayload(CODE_ERROR, CODE_ERROR);
@@ -277,6 +296,13 @@ void digestConfigRequest(uint8_t configAddress, uint8_t requestedCodeLowByte, ui
 				eeprom_write(OFFSET_CURRENT_CAL_A, requestedValue);
 			}
 			addPayload(requestedCodeLowByte, ui8_current_cal_a);
+			break;
+		case CODE_ADC_BATTERY_VOLTAGE_CALIB:
+			ui8_s_battery_voltage_calibration = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_BATTERY_VOLTAGE_CALIB, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_battery_voltage_calibration);
 			break;
 		case CODE_ASSIST_LEVEL:
 			ui8_assistlevel_global = requestedValue;
@@ -324,6 +350,48 @@ void digestConfigRequest(uint8_t configAddress, uint8_t requestedCodeLowByte, ui
 				eeprom_write(OFFSET_CORRECTION_AT_ANGLE, requestedValue);
 			}
 			addPayload(requestedCodeLowByte, ui8_correction_at_angle);
+			break;
+		case CODE_HALL_ANGLE_4_0:
+			ui8_s_hall_angle4_0 = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_HALL_ANGLE_4_0, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_hall_angle4_0);
+			break;
+		case CODE_HALL_ANGLE_6_60:
+			ui8_s_hall_angle6_60 = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_HALL_ANGLE_6_60, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_hall_angle6_60);
+			break;
+		case CODE_HALL_ANGLE_2_120:
+			ui8_s_hall_angle2_120 = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_HALL_ANGLE_2_120, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_hall_angle2_120);
+			break;
+		case CODE_HALL_ANGLE_3_180:
+			ui8_s_hall_angle3_180 = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_HALL_ANGLE_3_180, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_hall_angle3_180);
+			break;
+		case CODE_HALL_ANGLE_1_240:
+			ui8_s_hall_angle1_240 = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_HALL_ANGLE_1_240, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_hall_angle1_240);
+			break;
+		case CODE_HALL_ANGLE_5_300:
+			ui8_s_hall_angle5_300 = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_HALL_ANGLE_5_300, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_s_hall_angle5_300);
 			break;
 
 		case CODE_PAS_TRESHOLD:
@@ -405,7 +473,7 @@ void display_init() {
 	// noop just here to have a common interface
 }
 
-uint8_t readRtu(){
+uint8_t readRtu() {
 	uart_fill_rx_packet_buffer(ui8_rx_buffer, 11, &ui8_rx_buffer_counter);
 	if (ui8_rx_buffer_counter == 11) {
 		ui8_rx_converted_buffer[0] = ui8_rx_buffer[0];
@@ -422,7 +490,7 @@ uint8_t readRtu(){
 	return 0;
 }
 
-uint8_t readAscii(){
+uint8_t readAscii() {
 	uart_fill_rx_packet_buffer(ui8_rx_buffer, 17, &ui8_rx_buffer_counter);
 	if (ui8_rx_buffer_counter == 17) {
 		ui8_rx_converted_buffer[0] = (hex2int(ui8_rx_buffer[1]) << 4) + hex2int(ui8_rx_buffer[2]);
@@ -439,7 +507,7 @@ uint8_t readAscii(){
 	return 0;
 }
 
-uint8_t readUart(){
+uint8_t readUart() {
 	return readRtu();
 }
 

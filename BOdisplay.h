@@ -24,9 +24,11 @@ typedef enum {
 	FUN_ERROR = ((uint8_t) 0x66),
 	FUN_DETAIL_INFOS = ((uint8_t) 0x40),
 	FUN_BASIC_INFOS = ((uint8_t) 0x41),
-	FUN_CONFIG_INFOS = ((uint8_t) 0x42),
+	FUN_CONFIG_INFOS_A = ((uint8_t) 0x42),
 	FUN_HALL_INFOS = ((uint8_t) 0x43),
-	FUN_SET_CONFIG = ((uint8_t) 0x44)
+	FUN_SET_CONFIG = ((uint8_t) 0x44),
+	FUN_CONFIG_INFOS_B = ((uint8_t) 0x45),
+	FUN_NOOP = ((uint8_t) 0x46)
 } BO_FUN_CODES;
 
 typedef enum {
@@ -50,6 +52,13 @@ typedef enum {
 	CODE_ASSIST_LEVEL_SMOOTHED_PERCENT = ((uint8_t) 0xA8),
 	CODE_ASSIST_PERCENT_WANTED = ((uint8_t) 0xA9),
 
+	CODE_HALL_ANGLE_4_0 = ((uint8_t) 0xAA),
+	CODE_HALL_ANGLE_6_60 = ((uint8_t) 0xAB),
+	CODE_HALL_ANGLE_2_120 = ((uint8_t) 0xAC),
+	CODE_HALL_ANGLE_3_180 = ((uint8_t) 0xAD),
+	CODE_HALL_ANGLE_1_240 = ((uint8_t) 0xAE),
+	CODE_HALL_ANGLE_5_300 = ((uint8_t) 0xAF),
+
 	CODE_MOTOR_STATE = ((uint8_t) 0xC0),
 	CODE_BATTERY_VOLTAGE = ((uint8_t) 0xC1),
 	CODE_UPTIME = ((uint8_t) 0xC2),
@@ -64,6 +73,8 @@ typedef enum {
 
 	CODE_ER_SPEED_HIGH_BYTE = ((uint8_t) 0xCA),
 	CODE_ER_SPEED = ((uint8_t) 0xCB),
+			
+	CODE_ADC_BATTERY_VOLTAGE_CALIB = ((uint8_t) 0xCC),
 
 	CODE_SUM_TORQUE = ((uint8_t) 0xD0),
 	CODE_SETPOINT = ((uint8_t) 0xD1),
@@ -123,7 +134,7 @@ typedef enum {
 	CODE_VAR_DEBUG_B = ((uint8_t) 0x9B),
 	CODE_VAR_DEBUG_C = ((uint8_t) 0x9C),
 
-	CODE_60_DEG_PWM_CYCLES= ((uint8_t) 0x08),
+	CODE_60_DEG_PWM_CYCLES = ((uint8_t) 0x08),
 	CODE_HALL_ORDER_BASE = ((uint8_t) 0x10),
 	CODE_CURRENT_AT_HALL_POSITION_BASE = ((uint8_t) 0x00)
 } BO_VALUE_CODES;
