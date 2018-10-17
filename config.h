@@ -55,4 +55,5 @@
 #define EEPROM_INIT_MAGIC_BYTE 131 // makes sure (chance of fail 1/255) eeprom is invalidated after flashing new config
 #define ADC_BATTERY_VOLTAGE_K 68
 
+
 #endif /* CONFIG_H_ */

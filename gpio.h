@@ -40,7 +40,7 @@
  * PC5                | in  | ??  | SPEED
  * PD7                | in  | ??  | OverCurrent
  *
- *
+ * PC4  (TIM1_CH4)    | out | --  | Light
  */
 
 #ifndef _GPIO_H_
@@ -115,6 +115,9 @@
 
 #define DEBUG__PIN                  GPIO_PIN_2
 #define DEBUG__PORT                 GPIOD
+
+#define LIGHTS__PORT             GPIOC
+#define LIGHTS__PIN		 GPIO_PIN_4
 
 void gpio_init (void);
 void debug_pin_init (void);
