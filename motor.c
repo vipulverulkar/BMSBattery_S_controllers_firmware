@@ -22,6 +22,7 @@
 
 uint8_t ui8_counter = 0;
 uint8_t ui8_half_rotation_flag = 0;
+uint8_t ui8_doFOC =0;
 
 uint16_t ui16_PWM_cycles_counter = 0;
 uint16_t ui16_PWM_cycles_counter_6 = 0;
@@ -225,6 +226,7 @@ void hall_sensors_read_and_action (void)
 	  /*if(ui8_regen_flag)ui8_motor_rotor_absolute_position = ANGLE_60 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
 	  else */
 	  ui8_motor_rotor_absolute_position = ANGLE_1 + MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT;
+	  ui8_doFOC=1;
       }
       break;
 
@@ -308,6 +310,39 @@ void motor_fast_loop (void)
 #elif MOTOR_TYPE == MOTOR_TYPE_EUC2
     ui8_motor_rotor_position = ui8_motor_rotor_absolute_position + ui8_position_correction_value - ui8_interpolation_angle;
 #endif
+    // do FOC at 150° absolute
+   /*
+    if(ui8_motor_rotor_absolute_position + ui8_interpolation_angle - MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT > 106 && ui8_doFOC)
+      {
+	ui8_doFOC = 0; //reset FOC flag
+	if ( ui8_duty_cycle_target > 5){
+		ui16_ADC_iq_current_accumulated-=ui16_ADC_iq_current_accumulated>>3;
+		ui16_ADC_iq_current_accumulated+= ui16_adc_read_phase_B_current ();
+		ui16_ADC_iq_current = ui16_ADC_iq_current_accumulated>>3; // this value is regualted to be zero by FOC in this case without averaging
+
+		}
+	if (ui16_motor_speed_erps > 3 && ui16_BatteryCurrent >ui16_current_cal_b+3) //normal riding,
+		      {
+			if (ui16_ADC_iq_current>>2 > 127 && ui8_position_correction_value < 135)
+			{
+			  ui8_position_correction_value++;
+			}
+			else if (ui16_ADC_iq_current>>2 < 125 && ui8_position_correction_value >90)
+			{
+			  ui8_position_correction_value--;
+			}
+		      }
+		else if (ui16_motor_speed_erps > 3 && ui16_BatteryCurrent < ui16_current_cal_b-3) //regen
+		{
+
+		    ui8_position_correction_value=127; //set advance angle to neutral value
+		}
+
+
+		else if (ui16_motor_speed_erps < 3)ui8_position_correction_value=127; //reset advance angle at very low speed)
+
+
+      }*/
   }
   else if (ui8_motor_state == MOTOR_STATE_RUNNING_INTERPOLATION_360_DEGREES)
   {

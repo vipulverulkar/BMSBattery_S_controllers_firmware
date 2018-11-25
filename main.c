@@ -41,7 +41,8 @@ uint16_t ui16_log2 = 0;
 uint8_t ui8_log = 0;
 uint8_t ui8_i= 0; 				//counter for ... next loop
 uint16_t ui16_torque[NUMBER_OF_PAS_MAGS]; 	//array for torque values of one crank revolution
-uint16_t ui16_sum_torque = 0; 			//sum of array elements
+uint16_t ui16_TORQUE_accumulated;		// for filtering Torque
+uint8_t ui8_Torque = 0; 			//sum of array elements
 float float_kv = 0;
 float float_R = 0;
 uint8_t ui8_torque_index=0 ; 			//counter for torque array
@@ -66,10 +67,11 @@ uint16_t ui16_PAS_High=1;		//number of High readings on PAS
 uint8_t PAS_dir=0;			//PAS direction flag
 uint8_t PAS_act=3;			//recent PAS direction reading
 uint8_t PAS_old=4;			//last PAS direction reading
-uint16_t ui16_PAS = 65530;		//cadence in timetics
+uint16_t ui16_PAS = 32000;		//cadence in timetics
 uint8_t ui8_PAS_Flag = 0; 		//flag for PAS interrupt
 uint8_t ui8_SPEED_Tag = 0; 		//flag for SPEED update in update_setpoint
 uint8_t ui8_SPEED_Flag = 0; 		//flag for SPEED interrupt
+uint16_t ui32_PAS_accumulated;		// for filtering PAS Signal
 uint8_t uint8_t_rotorposition [7] = {
     0 ,
     42 ,
@@ -273,7 +275,15 @@ int main (void)
     //	Update cadence, torque and battery current after PAS interrupt occurrence
     if (ui8_PAS_Flag == 1)
     {
-      ui16_PAS=ui16_PAS_Counter; 		//save recent cadence
+	//filter and save recent cadence
+	//printf("%u,%u\r\n", ui16_PAS_Counter,ui8_Torque);
+	if(ui16_PAS_Counter<timeout){
+	ui32_PAS_accumulated-=ui32_PAS_accumulated>>5; //Number of PAS Mags = 2^5
+	ui32_PAS_accumulated+=ui16_PAS_Counter;
+	ui16_PAS=ui32_PAS_accumulated>>5;
+      }
+
+
       ui16_PAS_High=ui16_PAS_High_Counter;
 
 
@@ -319,16 +329,22 @@ int main (void)
 
 
 #ifdef TORQUESENSOR
-      ui8_temp = ui8_adc_read_throttle (); //read in recent torque value
-      ui16_torque[ui8_torque_index]= (uint8_t) map (ui8_temp , ADC_THROTTLE_MIN_VALUE, ADC_THROTTLE_MAX_VALUE, 0, SETPOINT_MAX_VALUE); //map throttle to limits
-      ui16_sum_torque = 0;
+
+     /* ui8_temp = ui8_adc_read_throttle (); //read in recent torque value
+      ui16_torque[ui8_torque_index]= (uint8_t) map (ui8_adc_read_throttle (), ADC_THROTTLE_MIN_VALUE, ADC_THROTTLE_MAX_VALUE, 0, SETPOINT_MAX_VALUE); //map throttle to limits
+      ui8_Torque = 0;
       for(a = 0; a < NUMBER_OF_PAS_MAGS; a++) {			// sum up array content
-	   ui16_sum_torque+= ui16_torque[a];
+	   ui8_Torque+= ui16_torque[a];
 	   }
 
       ui8_torque_index++;
       if (ui8_torque_index>NUMBER_OF_PAS_MAGS-1){ui8_torque_index=0;} //reset index counter
-      //printf("%d,%d,%d,%d,%d\r\n",ui8_temp, ui16_sum_torque, ui16_PAS, ui16_PAS_High, PAS_act);
+     // printf("%u, %u, %u, %u, %u, %u\r\n",(uint8_t) map (ui8_temp , ADC_THROTTLE_MIN_VALUE, ADC_THROTTLE_MAX_VALUE, 0, SETPOINT_MAX_VALUE), ui8_Torque, ui16_PAS, ui16_PAS_High, ui16_setpoint, ui16_motor_speed_erps);
+     */
+	ui16_TORQUE_accumulated-=ui16_TORQUE_accumulated>>6; //Number of PAS Mags = 2^5 * 2 for averaeaging over two revolutins.
+	ui16_TORQUE_accumulated+=(uint8_t) map (ui8_adc_read_throttle (), ADC_THROTTLE_MIN_VALUE, ADC_THROTTLE_MAX_VALUE, 0, SETPOINT_MAX_VALUE);
+	ui8_Torque = ui16_TORQUE_accumulated>>6;
+
 
 
 #endif
@@ -336,7 +352,7 @@ int main (void)
 
 
 #endif
-if(ui16_PAS_Counter>timeout) ui16_PAS = 65530;
+
 
 
 // scheduled update of setpoint and duty cycle (slow loop, 50 Hz)
@@ -353,7 +369,7 @@ if(ui16_PAS_Counter>timeout) ui16_PAS = 65530;
 
 	    ui8_temp= ui16_throttle_accumulated>>3; //read in value from adc
 
-	    ui16_sum_torque = (uint8_t) map (ui8_temp , ADC_THROTTLE_MIN_VALUE, ADC_THROTTLE_MAX_VALUE, 0, SETPOINT_MAX_VALUE); //map throttle to limits
+	    ui8_Torque = (uint8_t) map (ui8_temp , ADC_THROTTLE_MIN_VALUE, ADC_THROTTLE_MAX_VALUE, 0, SETPOINT_MAX_VALUE); //map throttle to limits
 #endif
 
 //start of cheat procedure
@@ -441,7 +457,7 @@ if(ui8_cheat_state==3) //second step, make sure the brake is hold according to d
 //end of cheatprocedure //
 
 
-	      ui16_setpoint = (uint16_t)update_setpoint (ui16_SPEED,ui16_PAS,ui16_sum_torque,ui16_setpoint); //update setpoint
+	      ui16_setpoint = (uint16_t)update_setpoint (ui16_SPEED,ui16_PAS,ui8_Torque,ui16_setpoint); //update setpoint
 
 
 //#define DO_CRUISE_CONTROL 1
@@ -451,7 +467,7 @@ if(ui8_cheat_state==3) //second step, make sure the brake is hold according to d
 
      pwm_set_duty_cycle ((uint8_t)ui16_setpoint);
 
-	  //pwm_set_duty_cycle ((uint8_t)ui16_sum_torque);
+	  //pwm_set_duty_cycle ((uint8_t)ui8_Torque);
 
 
 
@@ -463,7 +479,7 @@ if(ui8_cheat_state==3) //second step, make sure the brake is hold according to d
       //getchar1 ();
 
 #ifdef DIAGNOSTICS
-	 printf("%u,%u, %u, %u, %u, %u\r\n", ui8_control_state, ui16_setpoint, ui16_motor_speed_erps, ui16_BatteryCurrent, (uint16_t)uint32_current_target, ui16_sum_torque);
+	printf("%u, %u, %u, %u, %u ,%u, %u, %u\r\n", ui8_control_state, ui16_setpoint, ui16_motor_speed_erps, ui8_BatteryVoltage, ui16_BatteryCurrent, (uint16_t) uint32_current_target, ui16_PAS, ui8_Torque);
 #endif
 	  //printf("erps %d, motorstate %d, cyclecountertotal %d\r\n", ui16_motor_speed_erps, ui8_motor_state, ui16_PWM_cycles_counter_total);
 
@@ -489,7 +505,7 @@ if(ui8_cheat_state==3) //second step, make sure the brake is hold according to d
                        MOTOR_ROTOR_DELTA_PHASE_ANGLE_RIGHT,
                        PAS_dir,
                        PAS_act,
-                       ui16_sum_torque,
+                       ui8_Torque,
                        ui16_throttle_accumulated,
                        ui8_cheat_state,
                        ui8_motor_state,
@@ -520,7 +536,7 @@ if(ui8_cheat_state==3) //second step, make sure the brake is hold according to d
 
 //                printf("ST%3u T%3u CT%3lu SP%3u\r\n",
 //
-//                       ui16_sum_torque,
+//                       ui8_Torque,
 //                       ui16_throttle_accumulated,
 //                       uint32_current_target,
 //                       ui16_setpoint
@@ -529,7 +545,7 @@ if(ui8_cheat_state==3) //second step, make sure the brake is hold according to d
 
 #endif
 
-      //printf("correction angle %d, Current %d, Voltage %d, sumtorque %d, setpoint %d, km/h %lu\n",ui8_position_correction_value, i16_deziAmps, ui8_BatteryVoltage, ui16_sum_torque, ui16_setpoint, ui32_SPEED_km_h);
+      //printf("correction angle %d, Current %d, Voltage %d, sumtorque %d, setpoint %d, km/h %lu\n",ui8_position_correction_value, i16_deziAmps, ui8_BatteryVoltage, ui8_Torque, ui16_setpoint, ui32_SPEED_km_h);
       }//end of very slow loop
 
 
