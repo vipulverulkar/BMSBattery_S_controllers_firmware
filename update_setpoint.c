@@ -254,7 +254,7 @@ uint16_t update_setpoint (uint16_t speed, uint16_t PAS, uint16_t torque, uint16_
    //printf("%lu, %d, %d, %d\r\n", ui32_setpoint, ui8_position_correction_value, ui16_BatteryCurrent, (uint16_t) uint32_current_target);
 #endif
 
- if (!uint_PWM_Enable && ui8_BatteryVoltage>BATTERY_VOLTAGE_MIN_VALUE+8 ) //enable PWM if disabled and voltage is 2V higher than min, some hysteresis
+ if (!uint_PWM_Enable && ui8_BatteryVoltage>BATTERY_VOLTAGE_MIN_VALUE+8 && ui16_motor_speed_erps == 0) //enable PWM if disabled and voltage is 2V higher than min, some hysteresis and motor is at standstill
 
 
      {
