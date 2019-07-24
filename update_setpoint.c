@@ -157,14 +157,17 @@ uint16_t update_setpoint (uint16_t speed, uint16_t PAS, uint16_t torque, uint16_
 
       //if none of the overruling boundaries are concerned, calculate new setpoint
 #ifdef TORQUESENSOR
-
+     /* ui16_PAS_accumulated-=ui16_PAS_accumulated>>3;
+      ui16_PAS_accumulated+=PAS;
+      PAS=ui16_PAS_accumulated>>3;*/
+      //uint32_current_target=((i16_assistlevel[ui8_assistlevel_global-1]*fummelfaktor*torque))/(((uint32_t)PAS)<<6)+ui16_current_cal_b; 						//calculate setpoint
       uint32_current_target=((i16_assistlevel[ui8_assistlevel_global-1]*fummelfaktor*torque))/(((uint32_t)PAS)<<2); //assist level, calibration factor, torque, PAS
-      uint32_current_target*=(1000+ui32_SPEED_km_h/limit)/1000; 						//Speed compensation
-      uint32_current_target*=155/ui8_BatteryVoltage; 								// Scale to constant power: I=P/U
-      uint32_current_target+=ui16_current_cal_b;								// add current sensing offset
-
+      uint32_current_target*=(1000+ui32_SPEED_km_h/limit)/1000; //Speed compensation
+      uint32_current_target*=155/ui8_BatteryVoltage; // Scale to constant power: I=P/U
+      uint32_current_target+=ui16_current_cal_b;// add current sensing offset
+      //printf("vor: spd %d, pas %d, sumtor %d, setpoint %lu\n", speed, PAS, torque, ui32_setpoint);
       if (uint32_current_target>BATTERY_CURRENT_MAX_VALUE){
-
+	  //printf("Current target %lu\r\n", uint32_current_target);
 	  uint32_current_target=BATTERY_CURRENT_MAX_VALUE;
       }
       ui8_control_state=6;
@@ -254,7 +257,7 @@ uint16_t update_setpoint (uint16_t speed, uint16_t PAS, uint16_t torque, uint16_
    //printf("%lu, %d, %d, %d\r\n", ui32_setpoint, ui8_position_correction_value, ui16_BatteryCurrent, (uint16_t) uint32_current_target);
 #endif
 
- if (!uint_PWM_Enable && ui8_BatteryVoltage>BATTERY_VOLTAGE_MIN_VALUE+8 && ui16_motor_speed_erps == 0) //enable PWM if disabled and voltage is 2V higher than min, some hysteresis and motor is at standstill
+ if (!uint_PWM_Enable && ui8_BatteryVoltage>BATTERY_VOLTAGE_MIN_VALUE+8 ) //enable PWM if disabled and voltage is 2V higher than min, some hysteresis
 
 
      {
