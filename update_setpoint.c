@@ -46,6 +46,7 @@ uint8_t ui8_control_state=0; //regen flag for shifting from +90° to -90°
 static uint16_t ui16_PAS_accumulated = 64000L; // for filtering of PAS value
 static uint32_t ui32_erps_accumulated; //for filtering of erps
 uint32_t ui32_erps_filtered; //filtered value of erps
+uint32_t ui32_PWM_cycles_counter_total_accumulated=0;
 uint32_t ui32_temp;
 //uint16_t ui16_erps_limit_lower=((limit)*(GEAR_RATIO/wheel_circumference));
 //uint16_t ui16_erps_limit_higher=((limit+2)*(GEAR_RATIO/wheel_circumference));
@@ -68,6 +69,9 @@ uint16_t update_setpoint (uint16_t speed, uint16_t PAS, uint16_t torque, uint16_
   ui32_erps_accumulated-=ui32_erps_accumulated>>3;
   ui32_erps_accumulated+=ui16_motor_speed_erps;
   ui32_erps_filtered=ui32_erps_accumulated>>3;
+
+  ui32_PWM_cycles_counter_total_accumulated-=ui32_PWM_cycles_counter_total_accumulated>>3;
+  ui32_PWM_cycles_counter_total_accumulated+=ui16_PWM_cycles_counter_total;
 
 
   if(ui8_SPEED_Tag){
@@ -172,7 +176,7 @@ uint16_t update_setpoint (uint16_t speed, uint16_t PAS, uint16_t torque, uint16_
       }
       ui8_control_state=6;
 #ifdef SPEEDSENSOR_INTERNAL
-  uint32_current_target = CheckSpeed ((uint16_t)uint32_current_target, (uint16_t) ui32_erps_filtered); //limit speed
+  uint32_current_target = CheckSpeed ((uint16_t)uint32_current_target,(uint16_t) ui32_PWM_cycles_counter_total_accumulated>>3); //limit speed
 #endif
 
 #ifdef SPEEDSENSOR_EXTERNAL
@@ -296,19 +300,22 @@ uint32_t PI_control (uint16_t ist, uint16_t soll)
 }
 
 #ifdef SPEEDSENSOR_INTERNAL
-uint32_t CheckSpeed (uint16_t current_target, uint16_t erps)
+uint32_t CheckSpeed (uint16_t current_target, uint16_t tics)
 {
   //printf("Speed %d, %d\r\n", erps, ui16_erps_limit_lower);
   //ramp down motor power if you are riding too fast and speed liming is active
-  if (erps>ui16_erps_limit_lower && ui8_cheat_state!=5){
+  if (tics<450 && ui8_cheat_state!=5){	//450 refers to 25km/h
 
-	if (erps>ui16_erps_limit_higher){ //if you are riding much too fast, stop motor immediately
+	if (tics<402){ //402 refers to 28 km/h if you are riding much too fast, stop motor immediately
 	    current_target=ui16_current_cal_b;
 	   //printf("Speed much too high! %d, %d\r\n", erps,((limit+2)*GEAR_RATIO));
 	    ui8_control_state=11;
 	}
 	else {
-	    current_target=((current_target-ui16_current_cal_b)*(ui16_erps_limit_higher-erps))/(ui16_erps_limit_higher-ui16_erps_limit_lower)+ui16_current_cal_b; 	//ramp down the motor power within 2 km/h, if you are riding too fast
+	    current_target-=ui16_current_cal_b;
+	    current_target = map(tics, 402, 450, 0, current_target);
+	    current_target+=ui16_current_cal_b;
+	  //  current_target=((current_target-ui16_current_cal_b)*(ui16_erps_limit_higher-erps))/(ui16_erps_limit_higher-ui16_erps_limit_lower)+ui16_current_cal_b; 	//ramp down the motor power within 2 km/h, if you are riding too fast
 	  // printf("Speed too high!\r\n");
 	    ui8_control_state=12;
 	}
