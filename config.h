@@ -12,7 +12,7 @@
 #define limit 25
 #define timeout 2500
 #define wheel_circumference 2200L
-#define fummelfaktor 64L
+#define fummelfaktor 90L
 #define ADC_THROTTLE_MIN_VALUE 76
 #define ADC_THROTTLE_MAX_VALUE 192
 #define BATTERY_VOLTAGE_MIN_VALUE 111
