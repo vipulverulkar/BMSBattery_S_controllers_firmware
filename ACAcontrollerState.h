@@ -28,6 +28,10 @@ extern uint16_t ui16_pwm_cycles_second;
 
 extern uint8_t ui8_throttle_min_range;
 extern uint8_t ui8_throttle_max_range;
+
+extern uint16_t ui16_X4_min_range;
+extern  uint16_t ui16_X4_max_range;
+
 extern uint16_t ui16_control_state;
 extern uint8_t ui8_a_s_assistlevels[6];
 extern uint8_t ui8_assist_percent_actual;

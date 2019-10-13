@@ -27,6 +27,7 @@
 #include "ACAcontrollerState.h"
 
 static uint8_t ui8_temp;
+static uint16_t ui16_temp;
 
 uint8_t float2int(float in, float maxRange) {
 	uint16_t result;
@@ -255,8 +256,8 @@ void updatePasStatus(void) {
 
 
 		if (((ui16_aca_flags & TQ_SENSOR_MODE) == TQ_SENSOR_MODE)) {
-			ui8_temp = ui8_adc_read_throttle(); //read in recent torque value
-			ui16_torque[ui8_torque_index] = (uint8_t) map(ui8_temp, ui8_throttle_min_range, ui8_throttle_max_range, 0, SETPOINT_MAX_VALUE); //map throttle to limits
+			ui16_temp = ui16_adc_read_x4_value(); //read in recent torque value
+			ui16_torque[ui8_torque_index] = (uint16_t) map(ui16_temp, ui16_X4_min_range, ui16_X4_max_range, 0, SETPOINT_MAX_VALUE); //map throttle to limits
 
 			ui8_torque_index++;
 			if (ui8_torque_index > NUMBER_OF_PAS_MAGS - 1) {

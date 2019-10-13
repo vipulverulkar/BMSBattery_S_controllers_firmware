@@ -28,6 +28,10 @@
 // user controllable settings
 uint8_t ui8_throttle_min_range = 32;
 uint8_t ui8_throttle_max_range = 192;
+
+uint16_t ui16_X4_min_range = 500;
+uint16_t ui16_X4_max_range = 900;
+
 uint8_t ui8_speedlimit_kph = 25; // normal limit
 uint8_t ui8_speedlimit_without_pas_kph = 6; // limit without pas activity
 uint8_t ui8_speedlimit_with_throttle_override_kph = 35; // limit with pas and throttle both active
