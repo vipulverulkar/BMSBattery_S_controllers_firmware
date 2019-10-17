@@ -154,7 +154,7 @@ int main(void) {
 		// scheduled update of setpoint and duty cycle (slow loop, 50 Hz)
 		if (ui8_slowloop_flag) {
 			//printf("MainSlowLoop\n");
-
+		    debug_pin_set();
 			ui8_slowloop_flag = 0; //reset flag for slow loop
 			ui8_veryslowloop_counter++; // increase counter for very slow loop
 
@@ -212,7 +212,7 @@ int main(void) {
 #endif
 			}//end of very slow loop
 
-
+			debug_pin_reset();
 		}// end of slow loop
 	}// end of while(1) loop
 }
