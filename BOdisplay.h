@@ -130,6 +130,8 @@ typedef enum {
 	CODE_THROTTLE_MIN_RANGE = ((uint8_t) 0x86),
 	CODE_THROTTLE_MAX_RANGE = ((uint8_t) 0x87),
 
+	CODE_X4_MIN_RANGE = ((uint8_t) 0xB8),
+	CODE_X4_MAX_RANGE = ((uint8_t) 0xB9),
 
 	CODE_PAS_TRESHOLD = ((uint8_t) 0x8A),
 	CODE_PID_GAIN_P = ((uint8_t) 0x8B),

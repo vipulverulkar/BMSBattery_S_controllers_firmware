@@ -170,7 +170,7 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 
 			//Current target based on linear input on pad X4
 		} else {
-			ui8_temp = map(ui16_x4_value >> 2, ui8_throttle_min_range, ui8_throttle_max_range, 0, 100); //map regen throttle to limits
+			ui8_temp = map(ui16_x4_value >> 2, ui8_x4_min_range, ui8_x4_max_range, 0, 100); //map regen throttle to limits
 			controll_state_temp -= 2;
 		}
 		float_temp = (float) ui8_temp * (float) (ui16_regen_current_max_value) / 100.0;
@@ -263,7 +263,17 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 			}
 		} else {
 			float_temp = (float) ui16_momentary_throttle; // or ui16_sum_throttle
-			float_temp *= (1 - (float) ui16_virtual_erps_speed / 2 / (float) (ui16_speed_kph_to_erps_ratio * ((float) ui8_speedlimit_kph))); //ramp down linear with speed. Risk: Value is getting negative if speed>2*speedlimit
+			
+			// if override throttle at x4 enabled
+			if ((ui16_aca_experimental_flags & X4_OVERRIDE_TROTTLE) == X4_OVERRIDE_TROTTLE){
+				ui8_temp = map(ui16_x4_value >> 2, ui8_x4_min_range, ui8_x4_max_range, 0, SETPOINT_MAX_VALUE); //map override throttle to limits
+				if (ui8_temp > ui16_momentary_throttle){
+					float_temp = (float) ui16_momentary_throttle;
+				}
+			}
+			
+			//ramp down linear with speed. Risk: Value is getting negative if speed>2*speedlimit
+			float_temp *= (1 - (float) ui16_virtual_erps_speed / 2 / (float) (ui16_speed_kph_to_erps_ratio * ((float) ui8_speedlimit_kph))); 
 
 		}
 

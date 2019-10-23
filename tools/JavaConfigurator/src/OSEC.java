@@ -78,6 +78,10 @@ public class OSEC extends JFrame {
 	private JTextField batteryVoltageCalib;
 	private JLabel lblThrottleMax;
 	private JTextField txtThrottlemax;
+	
+	private JTextField txtX4min;
+	private JTextField txtX4max;
+	
 	private JButton btnWriteConfiguration;
 	private JTextField txtMaxbatterycurrent;
 	private JTextField txtUndervoltage;
@@ -129,6 +133,7 @@ public class OSEC extends JFrame {
 	private JCheckBox cbPwmOff;
 	private JCheckBox cbDcNull;
 	private JCheckBox cbHighSpeedMotor;
+	private JCheckBox cbX4OverrideThrottle;
 	private JCheckBox cbAntiJitter;
 	private JCheckBox cbSwitch360;
 	private JCheckBox cbDisable60DegInterpolation;
@@ -187,8 +192,8 @@ public class OSEC extends JFrame {
 		txtMaxregencurrent.setText(in.readLine());
 		txtMotor_specific_angle.setText(in.readLine());
 		txtBatteryCurcala.setText(in.readLine());
-		in.readLine();
-		in.readLine();
+		txtX4min.setText(in.readLine());
+		txtX4max.setText(in.readLine());
 		Assist_Level_1.setText(in.readLine());
 		Assist_Level_2.setText(in.readLine());
 		Assist_Level_3.setText(in.readLine());
@@ -278,6 +283,8 @@ public class OSEC extends JFrame {
 		cbDcNull.setSelected((acaExperimentalFlags & 1) > 0);
 		cbAntiJitter.setSelected((acaExperimentalFlags & 2) > 0);
 		cbHighSpeedMotor.setSelected((acaExperimentalFlags & 256) > 0);
+		
+		cbX4OverrideThrottle.setSelected((acaExperimentalFlags & 512) > 0);
 		cbSwitch360.setSelected((acaExperimentalFlags & 16) > 0);
 		cbDisableInterpolation.setSelected((acaExperimentalFlags & 4) > 0);
 		cbDisable60DegInterpolation.setSelected((acaExperimentalFlags & 8) > 0);
@@ -465,28 +472,6 @@ public class OSEC extends JFrame {
 		txtPasTimeout.setBounds(150, 130, 86, 20);
 		contentPane.add(txtPasTimeout);
 		txtPasTimeout.setColumns(10);
-
-		lblThrottleMin = new JLabel("Throttle min");
-		lblThrottleMin.setBounds(15, 150, 78, 14);
-		lblThrottleMin.setForeground(Color.GRAY);
-		contentPane.add(lblThrottleMin);
-
-		txtThrottlemin = new JTextField();
-		txtThrottlemin.setText("43");
-		txtThrottlemin.setBounds(150, 150, 86, 20);
-		contentPane.add(txtThrottlemin);
-		txtThrottlemin.setColumns(10);
-
-		lblThrottleMax = new JLabel("Throttle max");
-		lblThrottleMax.setBounds(15, 170, 78, 14);
-		lblThrottleMax.setForeground(Color.GRAY);
-		contentPane.add(lblThrottleMax);
-
-		txtThrottlemax = new JTextField();
-		txtThrottlemax.setText("182");
-		txtThrottlemax.setBounds(150, 170, 86, 20);
-		contentPane.add(txtThrottlemax);
-		txtThrottlemax.setColumns(10);
 
 		JLabel lblBatteryCurrentMax = new JLabel("Battery Current max");
 		lblBatteryCurrentMax.setForeground(Color.GRAY);
@@ -752,6 +737,53 @@ public class OSEC extends JFrame {
 		txtMotor_specific_angle.setBounds(530, 230, 50, 20);
 		contentPane.add(txtMotor_specific_angle);
 		txtMotor_specific_angle.setColumns(10);
+		
+		
+		
+		lblThrottleMin = new JLabel("Throttle min");
+		lblThrottleMin.setBounds(415, 270, 100, 14);
+		lblThrottleMin.setForeground(Color.GRAY);
+		contentPane.add(lblThrottleMin);
+
+		txtThrottlemin = new JTextField();
+		txtThrottlemin.setText("43");
+		txtThrottlemin.setBounds(530, 270, 50, 20);
+		contentPane.add(txtThrottlemin);
+		txtThrottlemin.setColumns(10);
+
+		lblThrottleMax = new JLabel("Throttle max");
+		lblThrottleMax.setBounds(415, 290, 100, 14);
+		lblThrottleMax.setForeground(Color.GRAY);
+		contentPane.add(lblThrottleMax);
+
+		txtThrottlemax = new JTextField();
+		txtThrottlemax.setText("182");
+		txtThrottlemax.setBounds(530, 290, 50, 20);
+		contentPane.add(txtThrottlemax);
+		txtThrottlemax.setColumns(10);
+		
+		JLabel lblX4Min = new JLabel("X4 min");
+		lblX4Min.setBounds(415, 310, 100, 14);
+		lblX4Min.setForeground(Color.GRAY);
+		contentPane.add(lblX4Min);
+
+		txtX4min = new JTextField();
+		txtX4min.setText("43");
+		txtX4min.setBounds(530, 310, 50, 20);
+		contentPane.add(txtX4min);
+		txtX4min.setColumns(10);
+
+		JLabel lblX4Max = new JLabel("X4 max");
+		lblX4Max.setBounds(415, 330, 100, 14);
+		lblX4Max.setForeground(Color.GRAY);
+		contentPane.add(lblX4Max);
+
+		txtX4max = new JTextField();
+		txtX4max.setText("182");
+		txtX4max.setBounds(530, 330, 50, 20);
+		contentPane.add(txtX4max);
+		txtX4max.setColumns(10);
+		
 
 		JList list = new JList();
 		list.setBounds(441, 177, 1, 1);
@@ -991,6 +1023,12 @@ public class OSEC extends JFrame {
 		cbHighSpeedMotor.setBounds(250, 535, 250, 20);
 		cbHighSpeedMotor.setForeground(Color.GRAY);
 		contentPane.add(cbHighSpeedMotor);
+		
+		cbX4OverrideThrottle = new JCheckBox("X4 override throttle");
+		cbX4OverrideThrottle.setSelected(false);
+		cbX4OverrideThrottle.setBounds(250, 555, 250, 20);
+		cbX4OverrideThrottle.setForeground(Color.GRAY);
+		contentPane.add(cbX4OverrideThrottle);
 
 		cbAntiJitter = new JCheckBox("Motor anti jitter (@60\u00B0 interpol.)");
 		cbAntiJitter.setSelected(false);
@@ -1167,8 +1205,13 @@ public class OSEC extends JFrame {
 					iWriter.println(txtBatteryCurcala.getText());
 					pWriter.println(text_to_save);
 
-					iWriter.println("");
-					iWriter.println("");
+					text_to_save = "#define ADC_X4_MIN_VALUE " + txtX4min.getText();
+					iWriter.println(txtX4min.getText());
+					pWriter.println(text_to_save);
+
+					text_to_save = "#define ADC_X4_MAX_VALUE " + txtX4max.getText();
+					iWriter.println(txtX4max.getText());
+					pWriter.println(text_to_save);
 
 					text_to_save = "#define LEVEL_1 " + Assist_Level_1.getText();
 					iWriter.println(Assist_Level_1.getText());
@@ -1333,6 +1376,8 @@ public class OSEC extends JFrame {
 					acaExperimentalFlags |= (cbDcNull.isSelected() ? 1 : 0);
 					acaExperimentalFlags |= (cbAntiJitter.isSelected() ? 2 : 0);
 					acaExperimentalFlags |= (cbHighSpeedMotor.isSelected() ? 256 : 0);
+					acaExperimentalFlags |= (cbX4OverrideThrottle.isSelected() ? 512 : 0);
+					
 					acaExperimentalFlags |= (cbSwitch360.isSelected() ? 16 : 0);
 					acaExperimentalFlags |= (cbDisableInterpolation.isSelected() ? 4 : 0);
 					acaExperimentalFlags |= (cbDisable60DegInterpolation.isSelected() ? 8 : 0);

@@ -28,6 +28,8 @@
 // user controllable settings
 uint8_t ui8_throttle_min_range = 32;
 uint8_t ui8_throttle_max_range = 192;
+uint8_t ui8_x4_min_range = 32;
+uint8_t ui8_x4_max_range = 192;
 uint8_t ui8_speedlimit_kph = 25; // normal limit
 uint8_t ui8_speedlimit_without_pas_kph = 6; // limit without pas activity
 uint8_t ui8_speedlimit_with_throttle_override_kph = 35; // limit with pas and throttle both active
@@ -163,6 +165,8 @@ void controllerstate_init(void) {
 	ui8_speedlimit_actual_kph = limit;
 	ui8_throttle_min_range = ADC_THROTTLE_MIN_VALUE;
 	ui8_throttle_max_range = ADC_THROTTLE_MAX_VALUE;
+	ui8_x4_min_range = ADC_X4_MIN_VALUE;
+	ui8_x4_max_range = ADC_X4_MAX_VALUE;
 	flt_s_pas_threshold = PAS_THRESHOLD;
 	flt_s_pid_gain_p = P_FACTOR;
 	flt_s_pid_gain_i = I_FACTOR;
@@ -226,6 +230,10 @@ void controllerstate_init(void) {
 	if (eepromVal > 0) ui8_throttle_min_range = eepromVal;
 	eepromVal = eeprom_read(OFFSET_THROTTLE_MAX_RANGE);
 	if (eepromVal > 0) ui8_throttle_max_range = eepromVal;
+	eepromVal = eeprom_read(OFFSET_X4_MIN_RANGE);
+	if (eepromVal > 0) ui8_x4_min_range = eepromVal;
+	eepromVal = eeprom_read(OFFSET_X4_MAX_RANGE);
+	if (eepromVal > 0) ui8_x4_max_range = eepromVal;
 	eepromVal = eeprom_read(OFFSET_PAS_TRESHOLD);
 	if (eepromVal > 0) flt_s_pas_threshold = int2float(eepromVal, 4.0);
 	eepromVal = eeprom_read(OFFSET_TQ_CALIB);

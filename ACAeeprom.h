@@ -76,7 +76,10 @@ typedef enum {
 			
 	OFFSET_PASSCODE_HIGH_BYTE = ((uint8_t) 0x27),
 	OFFSET_PASSCODE = ((uint8_t) 0x28),
-	OFFSET_GEAR_RATIO = ((uint8_t) 0x29)
+	OFFSET_GEAR_RATIO = ((uint8_t) 0x29),
+			
+	OFFSET_X4_MIN_RANGE = ((uint8_t) 0x2A),
+	OFFSET_X4_MAX_RANGE = ((uint8_t) 0x2B)
 
 } BO_EEPROM_OFFSETS;
 

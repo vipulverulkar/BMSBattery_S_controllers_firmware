@@ -128,6 +128,8 @@ void addConfigStateInfosA(void) {
 	addPayload(CODE_ACA_FLAGS, ui16_aca_flags);
 	addPayload(CODE_THROTTLE_MIN_RANGE, ui8_throttle_min_range);
 	addPayload(CODE_THROTTLE_MAX_RANGE, ui8_throttle_max_range);
+	addPayload(CODE_X4_MIN_RANGE, ui8_x4_min_range);
+	addPayload(CODE_X4_MAX_RANGE, ui8_x4_max_range);
 	addPayload(CODE_MOTOR_SPECIFIC_ANGLE, ui8_s_motor_angle);
 	addPayload(CODE_PAS_TRESHOLD, float2int(flt_s_pas_threshold, 4.0));
 	addPayload(CODE_PID_GAIN_P, float2int(flt_s_pid_gain_p, 2.0));
@@ -139,7 +141,7 @@ void addConfigStateInfosA(void) {
 	addPayload(CODE_MAX_BAT_CURRENT, ui16_battery_current_max_value);
 	addPayload(CODE_CORRECTION_AT_ANGLE, ui8_correction_at_angle);
 
-	// 5 more elements left/avail (max30)
+	// 3 more elements left/avail (max30)
 
 }
 
@@ -437,6 +439,20 @@ void digestConfigRequest(uint8_t configAddress, uint8_t requestedCodeLowByte, ui
 				eeprom_write(OFFSET_THROTTLE_MAX_RANGE, requestedValue);
 			}
 			addPayload(requestedCodeLowByte, ui8_throttle_max_range);
+			break;
+		case CODE_X4_MIN_RANGE:
+			ui8_x4_min_range = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_X4_MIN_RANGE, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_x4_min_range);
+			break;
+		case CODE_X4_MAX_RANGE:
+			ui8_x4_max_range = requestedValue;
+			if (configAddress == EEPROM_ADDRESS) {
+				eeprom_write(OFFSET_X4_MAX_RANGE, requestedValue);
+			}
+			addPayload(requestedCodeLowByte, ui8_x4_max_range);
 			break;
 
 		case CODE_MOTOR_SPECIFIC_ANGLE:
