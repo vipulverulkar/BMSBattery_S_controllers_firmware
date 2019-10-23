@@ -253,7 +253,7 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 
 		}
 
-
+		ui8_temp = 0;
 		float_temp = 0.0;
 		// throttle / torquesensor override following
 		if (((ui16_aca_flags & TQ_SENSOR_MODE) != TQ_SENSOR_MODE)) {
