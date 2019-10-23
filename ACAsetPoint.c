@@ -288,8 +288,10 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 
 		if ((uint32_t) float_temp > uint32_current_target) {
 			if (((ui16_aca_flags & TQ_SENSOR_MODE) == TQ_SENSOR_MODE)) {
-				if (uint32_current_target > ui16_current_cal_b){
+				
+				if ((uint32_current_target > ui16_current_cal_b) || (ui8_temp > 5)){
 					//override cadence based torque with torquesensor-throttle only if there is cadence based contribution
+					//override in any case if x4 throttle is active
 					uint32_current_target = (uint32_t) float_temp;
 				}
 			}else{
