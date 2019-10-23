@@ -268,7 +268,7 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 			if ((ui16_aca_experimental_flags & X4_OVERRIDE_TROTTLE) == X4_OVERRIDE_TROTTLE){
 				ui8_temp = map(ui16_x4_value >> 2, ui8_x4_min_range, ui8_x4_max_range, 0, SETPOINT_MAX_VALUE); //map override throttle to limits
 				if (ui8_temp > ui16_momentary_throttle){
-					float_temp = (float) ui16_momentary_throttle;
+					float_temp = (float) ui8_temp;
 				}
 			}
 			
