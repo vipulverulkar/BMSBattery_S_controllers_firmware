@@ -1027,7 +1027,7 @@ public class OSEC extends JFrame {
 		cbX4OverrideThrottle = new JCheckBox("X4 override throttle");
 		cbX4OverrideThrottle.setSelected(false);
 		cbX4OverrideThrottle.setBounds(250, 555, 250, 20);
-		cbX4OverrideThrottle.setForeground(Color.GRAY);
+		cbX4OverrideThrottle.setForeground(Color.ORANGE);
 		contentPane.add(cbX4OverrideThrottle);
 
 		cbAntiJitter = new JCheckBox("Motor anti jitter (@60\u00B0 interpol.)");
