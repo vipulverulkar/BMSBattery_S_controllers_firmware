@@ -217,7 +217,7 @@ void checkPasInActivity(void) {
 		// updatePasStatus does not fire if pas inactive, so set interval to reasonably high value here
 		ui16_time_ticks_between_pas_interrupt = 64000L;
 		// also ensure torque array slowly resets
-		ui16_torque[ui8_torque_index] = (uint8_t) map(ui8_throttle_min_range, ui8_throttle_min_range, ui8_throttle_max_range, 0, SETPOINT_MAX_VALUE); //map throttle to limits
+		ui16_torque[ui8_torque_index] = 0;
 		ui8_torque_index++;
 		if (ui8_torque_index > NUMBER_OF_PAS_MAGS - 1) {
 			ui8_torque_index = 0;
