@@ -243,7 +243,7 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 		             uint32_temp /= ui16_time_ticks_between_pas_interrupt_smoothed; // hier lässt sich die geteilt-Operation nicht vermeiden :-(
 
 		             if(PAS_is_active)
-		             uint32_current_target = uint32_temp >>8 +  ui16_current_cal_b; //right shift 15 fasst die Operationen /100 (annähernd >>7) aus der assist_percent und /255 ( >>8) aus dem battery_current max zusammen, ist nicht ganz korrekt, ggf. nur >>14 nehmen -->/(256*128) vs. /(256*64)
+		             uint32_current_target = (uint32_temp >>8) +  (uint32_t) ui16_current_cal_b; //right shift 15 fasst die Operationen /100 (annähernd >>7) aus der assist_percent und /255 ( >>8) aus dem battery_current max zusammen, ist nicht ganz korrekt, ggf. nur >>14 nehmen -->/(256*128) vs. /(256*64)
 		             else uint32_current_target =(uint32_t) ui16_current_cal_b;
 
 

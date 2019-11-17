@@ -15,7 +15,7 @@
 #define limit_without_pas 6
 #define ADC_THROTTLE_MIN_VALUE 43
 #define ADC_THROTTLE_MAX_VALUE 182
-#define BATTERY_VOLTAGE_MIN_VALUE 148
+#define BATTERY_VOLTAGE_MIN_VALUE 10
 #define BATTERY_CURRENT_MAX_VALUE 66L
 #define PHASE_CURRENT_MAX_VALUE 350L
 #define REGEN_CURRENT_MAX_VALUE 50L
@@ -41,10 +41,11 @@
 #define ANGLE_6_60 43
 #define ANGLE_2_120 86
 #define ANGLE_3_180 128
-#define BLUOSEC
+//#define BLUOSEC
+#define DIAGNOSTICS
 #define ANGLE_1_240 171
 #define ANGLE_5_300 213
-#define TQS_CALIB 10000.0
+#define TQS_CALIB 80
 #define ACA 6812
 #define EEPROM_INIT_MAGIC_BYTE 25 // makes sure (chance of fail 1/255) eeprom is invalidated after flashing new config
 #define ADC_BATTERY_VOLTAGE_K 67

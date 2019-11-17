@@ -190,7 +190,8 @@ int main(void) {
 				}
 
 #ifdef DIAGNOSTICS
-				printf("%u,%u, %u, %u, %u, %u\r\n", ui16_control_state, ui16_setpoint, ui16_motor_speed_erps, ui16_BatteryCurrent, ui16_sum_torque, ui16_momentary_throttle);
+				//uint32_torquesensorCalibration=80;
+				printf("%u,%u, %u, %u, %u, %u\r\n", ui16_control_state, (uint16_t) uint32_current_target, PAS_is_active, ui16_BatteryCurrent, ui16_sum_torque, (uint16_t)uint32_torquesensorCalibration);
 
 				//printf("erps %d, motorstate %d, cyclecountertotal %d\r\n", ui16_motor_speed_erps, ui8_possible_motor_state|ui8_dynamic_motor_state, ui16_PWM_cycles_counter_total);
 
