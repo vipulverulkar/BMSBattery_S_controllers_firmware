@@ -119,6 +119,7 @@ extern uint8_t ui8_PAS_update_call_when_inactive_counter;
 
 
 extern float flt_torquesensorCalibration;
+extern uint32_t uint32_torquesensorCalibration;
 extern float flt_s_pas_threshold;
 extern float flt_s_pid_gain_p;
 extern float flt_s_pid_gain_i;

@@ -41,6 +41,7 @@ float flt_s_pid_gain_p = 0.5;
 float flt_s_pid_gain_i = 0.2;
 float flt_s_motor_constant = 1.5;
 float flt_torquesensorCalibration = 0.0;
+uint32_t uint32_torquesensorCalibration = 0;
 uint16_t ui16_s_ramp_end = 1500;
 uint16_t ui16_s_ramp_start = 7000;
 uint8_t ui8_s_motor_angle = 214;
@@ -184,6 +185,7 @@ void controllerstate_init(void) {
 	ui8_current_cal_a = current_cal_a;
 	ui8_correction_at_angle = CORRECTION_AT_ANGLE;
 	flt_torquesensorCalibration = TQS_CALIB;
+	uint32_torquesensorCalibration = (uint32_t)flt_torquesensorCalibration;
 	ui8_gear_ratio = GEAR_RATIO;
 
 	// read in overrides from eeprom if they are > 0, assuming 0s are uninitialized
@@ -233,7 +235,9 @@ void controllerstate_init(void) {
 	eepromVal = eeprom_read(OFFSET_PAS_TRESHOLD);
 	if (eepromVal > 0) flt_s_pas_threshold = int2float(eepromVal, 4.0);
 	eepromVal = eeprom_read(OFFSET_TQ_CALIB);
-	if (eepromVal > 0) flt_torquesensorCalibration = int2float(eepromVal, 8000.0);
+	if (eepromVal > 0){ flt_torquesensorCalibration = int2float(eepromVal, 8000.0);
+	uint32_torquesensorCalibration = (uint32_t)flt_torquesensorCalibration;
+	}
 	eepromVal = eeprom_read(OFFSET_PID_GAIN_P);
 	if (eepromVal > 0) flt_s_pid_gain_p = int2float(eepromVal, 2.0);
 	eepromVal = eeprom_read(OFFSET_PID_GAIN_I);

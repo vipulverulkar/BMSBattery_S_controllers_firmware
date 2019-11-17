@@ -233,23 +233,18 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 			}
 		} else { // torque sensor mode
 
-			float_temp = (float) ui16_sum_torque;
-			float_temp *= ((float) ui8_assist_percent_actual / 100.0);
 
-			if (flt_torquesensorCalibration != 0.0) {
-				// flt_torquesensorCalibration is >fummelfactor * NUMBER_OF_PAS_MAGS * 64< (64 cause of <<6)
-				float_temp *= flt_torquesensorCalibration / ((float) ui16_time_ticks_between_pas_interrupt_smoothed); // influence of cadence
-				//printf("%lu, %u, %u, %u \r\n", uint32_current_target, ui16_sum_torque,(uint16_t) float_temp, ui16_time_ticks_between_pas_interrupt_smoothed );
+		             //erst mal alles aufmultiplizieren, damit beim Teilen was über 1 übrig bleibt. Bitte mal überschlagen, ob die int32 da nicht überlaufen kann...
+		             uint32_temp = ui16_sum_torque;
+		             uint32_temp *= ui8_assist_percent_actual;
+		             uint32_temp *= ui16_battery_current_max_value;
+		             uint32_temp *= uint32_torquesensorCalibration;
 
-			}
+		             uint32_temp /= ui16_time_ticks_between_pas_interrupt_smoothed; // hier lässt sich die geteilt-Operation nicht vermeiden :-(
 
-			//increase power linear with speed for convenient commuting :-)
-			if ((ui16_aca_flags & SPEED_INFLUENCES_TORQUESENSOR) == SPEED_INFLUENCES_TORQUESENSOR) {
-				float_temp *= (1.0 + ((float) ui16_virtual_erps_speed) / ((float) (ui16_speed_kph_to_erps_ratio * ((float) ui8_speedlimit_kph)) / 100.0)); // influence of current speed based on base speed limit
-			}
-			if(PAS_is_active)
-			uint32_current_target = (uint32_t) (float_temp * (float) (ui16_battery_current_max_value) / 255.0 + (float) ui16_current_cal_b);
-			else uint32_current_target =(uint32_t) ui16_current_cal_b;
+		             if(PAS_is_active)
+		             uint32_current_target = uint32_temp >>8 +  ui16_current_cal_b; //right shift 15 fasst die Operationen /100 (annähernd >>7) aus der assist_percent und /255 ( >>8) aus dem battery_current max zusammen, ist nicht ganz korrekt, ggf. nur >>14 nehmen -->/(256*128) vs. /(256*64)
+		             else uint32_current_target =(uint32_t) ui16_current_cal_b;
 
 
 			controll_state_temp += 4;
