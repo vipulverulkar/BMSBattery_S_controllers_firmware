@@ -1,12 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  */
 
 /**
  *
- * @author Gaswerke
+ * @author stancecoke
  */
 
 import java.awt.BorderLayout;
@@ -304,7 +312,7 @@ public void AddListItem(File newFile) {
                 .addContainerGap(328, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Motor configuration", jPanel1);
+        jTabbedPane1.addTab("ParameterTab 1", jPanel1);
 
         Parameter3.setText("357");
 
@@ -331,10 +339,10 @@ public void AddListItem(File newFile) {
                 .addContainerGap(319, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Ride-Mode configuration", jPanel4);
+        jTabbedPane1.addTab("ParameterTab 2", jPanel4);
 
         label1.setFont(new java.awt.Font("Ebrima", 0, 24)); // NOI18N
-        label1.setText("TSDZ2 Configurator");
+        label1.setText("E-Bike Parameter Configurator");
 
         expSet.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -368,7 +376,7 @@ public void AddListItem(File newFile) {
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(167, 917, Short.MAX_VALUE))
+                .addGap(167, 805, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -409,6 +417,8 @@ public void AddListItem(File newFile) {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(52, 52, 52))
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("MotorConfiguration");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
