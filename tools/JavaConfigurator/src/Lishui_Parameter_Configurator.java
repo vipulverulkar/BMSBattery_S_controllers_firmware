@@ -158,7 +158,7 @@ public void AddListItem(File newFile) {
 
         // update lists
         
-                        experimentalSettingsDir = new File(Paths.get(".").toAbsolutePath().normalize().toString());
+                experimentalSettingsDir = new File(Paths.get(".").toAbsolutePath().normalize().toString());
 		while (!Arrays.asList(experimentalSettingsDir.list()).contains("experimental settings")) {
 			experimentalSettingsDir = experimentalSettingsDir.getParentFile();
 		}
@@ -276,11 +276,11 @@ public void AddListItem(File newFile) {
                                         experimentalSettingsFilesModel.add(0, new FileContainer(newFile)); //hier wird nur die neue Datei in die Liste geschrieben...
 
 					iWriter = new PrintWriter(new BufferedWriter(new FileWriter(newFile)));
-					pWriter = new PrintWriter(new BufferedWriter(new FileWriter("config.h")));
+					pWriter = new PrintWriter(new BufferedWriter(new FileWriter("inc/config.h")));
 					pWriter.println("/*\r\n"
 							+ " * config.h\r\n"
 							+ " *\r\n"
-							+ " *  Automatically created by OSEC Parameter Configurator\r\n"
+							+ " *  Automatically created by Lishui Parameter Configurator\r\n"
 							+ " *  Author: stancecoke\r\n"
 							+ " */\r\n"
 							+ "\r\n"
@@ -423,31 +423,31 @@ public void AddListItem(File newFile) {
 					iWriter.println(RB_TORQUESENSOR.isSelected());
                                         
                                         if (RB_JLCD.isSelected()) {
-						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_KINGMETER_618U \\J-LCD";
+						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_KINGMETER_618U //J-LCD";
 						pWriter.println(text_to_save);
 					}
 					iWriter.println(RB_JLCD.isSelected());
                                         
                                         if (RB_KM5S.isSelected()) {
-						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_KINGMETER_901U \\KM5S";
+						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_KINGMETER_901U //KM5S";
 						pWriter.println(text_to_save);
 					}
 					iWriter.println(RB_KM5S.isSelected());
                                         
                                         if (RB_KUNTENG.isSelected()) {
-						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_KUNTENG \\Kunteng LCD3/5 etc.";
+						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_KUNTENG //Kunteng LCD3/5 etc.";
 						pWriter.println(text_to_save);
 					}
 					iWriter.println(RB_KUNTENG.isSelected());                                        
 
                                         if (RB_BAFANG.isSelected()) {
-						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_BAFANG \\Bafang Displays, including 'Blaupunkt' ";
+						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_BAFANG //Bafang Displays, including 'Blaupunkt' ";
 						pWriter.println(text_to_save);
 					}
 					iWriter.println(RB_BAFANG.isSelected());
                                         
                                         if (RB_DEBUG.isSelected()) {
-						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_DEBUG \\ASCII Printout for debugging";
+						text_to_save = "#define DISPLAY_TYPE DISPLAY_TYPE_DEBUG //ASCII Printout for debugging";
 						pWriter.println(text_to_save);
 					}
 					iWriter.println(RB_DEBUG.isSelected());                                        
