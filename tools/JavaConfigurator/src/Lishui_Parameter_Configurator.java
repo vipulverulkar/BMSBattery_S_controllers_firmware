@@ -392,27 +392,27 @@ public void AddListItem(File newFile) {
 				        iWriter.println(TF_THROTTLE_MAX.getText());
 					pWriter.println(text_to_save);
                                                
-                                        text_to_save = "#define THROTTLE_MAX " + TF_WHEEL_CIRC.getText();
+                                        text_to_save = "#define WHEEL_CIRCUMFERENCE " + TF_WHEEL_CIRC.getText();
 				        iWriter.println(TF_WHEEL_CIRC.getText());
 					pWriter.println(text_to_save);
                                                
-                                        text_to_save = "#define THROTTLE_MAX " + TF_GEAR_RATIO.getText();
+                                        text_to_save = "#define GEAR_RATIO " + TF_GEAR_RATIO.getText();
 				        iWriter.println(TF_GEAR_RATIO.getText());
 					pWriter.println(text_to_save);
                                                
-                                        text_to_save = "#define THROTTLE_MAX " + TF_SPEED_LIMIT.getText();
+                                        text_to_save = "#define SPEEDLIMIT " + TF_SPEED_LIMIT.getText();
 				        iWriter.println(TF_SPEED_LIMIT.getText());
 					pWriter.println(text_to_save);
                                                
-                                        text_to_save = "#define THROTTLE_MAX " + TF_PULSES_PER_REVOLUTION.getText();
+                                        text_to_save = "#define PULSES_PER_REVOLUTION " + TF_PULSES_PER_REVOLUTION.getText();
 				        iWriter.println(TF_PULSES_PER_REVOLUTION.getText());
 					pWriter.println(text_to_save);
                                                
-                                        text_to_save = "#define THROTTLE_MAX " + TF_PH_CURRENT_MAX.getText();
+                                        text_to_save = "#define PH_CURRENT_MAX " + TF_PH_CURRENT_MAX.getText();
 				        iWriter.println(TF_PH_CURRENT_MAX.getText());
 					pWriter.println(text_to_save);
                                                
-                                        text_to_save = "#define THROTTLE_MAX " + TF_SPEC_ANGLE.getText();
+                                        text_to_save = "#define SPEC_ANGLE " + TF_SPEC_ANGLE.getText();
 				        iWriter.println(TF_SPEC_ANGLE.getText());
 					pWriter.println(text_to_save);                                        
                                         
@@ -715,42 +715,37 @@ public void AddListItem(File newFile) {
                         .addComponent(jLabel28)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TAB1Layout.createSequentialGroup()
+                    .addGroup(TAB1Layout.createSequentialGroup()
                         .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel31)
                             .addGroup(TAB1Layout.createSequentialGroup()
                                 .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel31)
-                                    .addGroup(TAB1Layout.createSequentialGroup()
-                                        .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel32)
-                                            .addComponent(jLabel33))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(TF_THROTTLE_MAX)
-                                            .addComponent(TF_THROTTLE_OFFSET, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(55, 55, 55)
-                                .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel35)
-                                    .addComponent(jLabel39)
-                                    .addComponent(jLabel38)
-                                    .addComponent(jLabel37)
-                                    .addComponent(jLabel36))
-                                .addGap(28, 28, 28))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TAB1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel40)
-                                .addGap(33, 33, 33)))
-                        .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TF_PH_CURRENT_MAX)
-                            .addComponent(TF_PULSES_PER_REVOLUTION)
-                            .addComponent(TF_SPEC_ANGLE)
-                            .addComponent(TF_WHEEL_CIRC)
-                            .addComponent(TF_GEAR_RATIO)
-                            .addComponent(TF_SPEED_LIMIT, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(TAB1Layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
-                        .addComponent(jLabel34)
-                        .addGap(8, 8, 8)))
+                                    .addComponent(jLabel32)
+                                    .addComponent(jLabel33))
+                                .addGap(18, 18, 18)
+                                .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TF_THROTTLE_MAX)
+                                    .addComponent(TF_THROTTLE_OFFSET, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(55, 55, 55)
+                        .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel35)
+                            .addComponent(jLabel39)
+                            .addComponent(jLabel38)
+                            .addComponent(jLabel37)
+                            .addComponent(jLabel36)
+                            .addComponent(jLabel34))
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TAB1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel40)
+                        .addGap(33, 33, 33)))
+                .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TF_PH_CURRENT_MAX)
+                    .addComponent(TF_PULSES_PER_REVOLUTION)
+                    .addComponent(TF_SPEC_ANGLE)
+                    .addComponent(TF_WHEEL_CIRC)
+                    .addComponent(TF_GEAR_RATIO)
+                    .addComponent(TF_SPEED_LIMIT, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61))
         );
         TAB1Layout.setVerticalGroup(
@@ -785,7 +780,7 @@ public void AddListItem(File newFile) {
                             .addComponent(jLabel35)
                             .addComponent(TF_WHEEL_CIRC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(TAB1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel36)
                             .addComponent(TF_GEAR_RATIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1105,7 +1100,7 @@ public void AddListItem(File newFile) {
         jTabbedPane1.addTab("Advanced Settings", TAB2);
 
         label1.setFont(new java.awt.Font("Ebrima", 0, 24)); // NOI18N
-        label1.setText("E-Bike Parameter Configurator");
+        label1.setText("Lishui Parameter Configurator");
 
         expSet.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1141,12 +1136,9 @@ public void AddListItem(File newFile) {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1160,15 +1152,18 @@ public void AddListItem(File newFile) {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane1))))
+                            .addComponent(jScrollPane1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(23, 23, 23)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
