@@ -113,6 +113,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                          <Component id="RB_TORQUESENSOR" min="-2" max="-2" attributes="0"/>
                           <Component id="RB_DEBUG" min="-2" max="-2" attributes="0"/>
                           <Component id="RB_KUNTENG" min="-2" max="-2" attributes="0"/>
                           <Component id="RB_BAFANG" min="-2" max="-2" attributes="0"/>
@@ -120,11 +122,11 @@
                           <Component id="RB_JLCD" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="Label_Parameter1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
                               <Component id="Parameter1" min="-2" pref="69" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="657" max="32767" attributes="0"/>
+                      <EmptySpace pref="454" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -136,7 +138,7 @@
                           <Component id="Parameter1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Label_Parameter1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="RB_JLCD" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="RB_KM5S" min="-2" max="-2" attributes="0"/>
@@ -146,7 +148,11 @@
                       <Component id="RB_KUNTENG" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="RB_DEBUG" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="175" max="32767" attributes="0"/>
+                      <EmptySpace pref="89" max="32767" attributes="0"/>
+                      <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="RB_TORQUESENSOR" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -162,7 +168,7 @@
                 <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="Parameter1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Parameter 1"/>
+                <Property name="text" type="java.lang.String" value="Display"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="RB_JLCD">
@@ -211,6 +217,16 @@
                 <Property name="text" type="java.lang.String" value="Debug"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JRadioButton" name="RB_TORQUESENSOR">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="torquesensor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel21">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ride Mode"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="TAB2">
@@ -247,24 +263,31 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabel9" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
-                                          <Component id="jLabel7" pref="83" max="32767" attributes="0"/>
-                                          <Component id="jLabel8" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                  <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="TF_CAL_BAT_V" max="32767" attributes="0"/>
-                                          <Component id="TF_CAL_V" alignment="0" pref="72" max="32767" attributes="0"/>
-                                          <Component id="TF_CAL_I" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="TF_P_FACTOR_I_Q" min="-2" pref="55" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel6" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="TF_I_FACTOR_I_Q" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="TF_P_FACTOR_I_D" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="TF_I_FACTOR_I_D" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -278,19 +301,64 @@
                                           <Component id="TF_RESISTANCE" alignment="0" max="32767" attributes="0"/>
                                           <Component id="TF_INDUCTANCE" alignment="0" max="32767" attributes="0"/>
                                           <Component id="TF_FLUX_LINKAGE" max="32767" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <Component id="TF_GAMMA" min="-2" pref="68" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="TF_GAMMA" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jLabel10" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="jLabel9" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
+                                                  <Component id="jLabel7" max="32767" attributes="0"/>
+                                                  <Component id="jLabel8" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="TF_CAL_BAT_V" max="32767" attributes="0"/>
+                                                  <Component id="TF_CAL_V" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="TF_CAL_I" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Component id="jLabel6" min="-2" pref="173" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <Component id="RB_DISABLE_DYN_ADC" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="RB_FAST_LOOP_LOG" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="306" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TF_BATTERY_LEVEL_5" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TF_BATTERY_LEVEL_2" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TF_BATTERY_LEVEL_3" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TF_BATTERY_LEVEL_4" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TF_BATTERY_LEVEL_1" min="-2" pref="90" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -300,53 +368,102 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="TF_TRIGGER_OFFSET" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Label_Param3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TF_CAL_BAT_V" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="TF_INDUCTANCE" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_P_FACTOR_I_Q" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="TF_TRIGGER_DEFAULT" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TF_CAL_V" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="TF_RESISTANCE" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_I_FACTOR_I_Q" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="TF_TIMER_PERIOD" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TF_CAL_I" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="TF_FLUX_LINKAGE" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_P_FACTOR_I_D" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="TF_GAMMA" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_I_FACTOR_I_D" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="152" max="32767" attributes="0"/>
+                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_CAL_BAT_V" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="TF_CAL_V" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="TF_CAL_I" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="RB_FAST_LOOP_LOG" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="RB_DISABLE_DYN_ADC" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_BATTERY_LEVEL_1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_BATTERY_LEVEL_2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_BATTERY_LEVEL_3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_BATTERY_LEVEL_4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="TF_BATTERY_LEVEL_5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -475,6 +592,106 @@
             <Component class="javax.swing.JTextField" name="TF_GAMMA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="9LL"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel15">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Battery settings"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel16">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bar 1"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel17">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bar 2"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bar 3"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bar 4"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_BATTERY_LEVEL_1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="323000"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_BATTERY_LEVEL_2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="329000"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel20">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bar 5"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_BATTERY_LEVEL_3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="344000"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_BATTERY_LEVEL_4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="368000"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_BATTERY_LEVEL_5">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="380000"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel22">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="PI control settings"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel23">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Iq p-factor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel24">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Iq i-factor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel25">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Id p-factor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel26">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Id i-factor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_P_FACTOR_I_Q">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="0.1L"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_I_FACTOR_I_Q">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="0.01L"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_P_FACTOR_I_D">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="1"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="TF_I_FACTOR_I_D">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="1"/>
               </Properties>
             </Component>
           </SubComponents>
