@@ -42,7 +42,7 @@
 #define ANGLE_2_120 86
 #define ANGLE_3_180 128
 //#define BLUOSEC
-#define DIAGNOSTICS
+#define DISPLAY_TYPE_KT_LCD3
 #define ANGLE_1_240 171
 #define ANGLE_5_300 213
 #define TQS_CALIB 80

@@ -69,6 +69,7 @@ uint8_t ui8_assist_dynamic_percent_addon = 0;
 uint8_t ui8_assistlevel_global = 66; // 2 + regen 4
 uint8_t ui8_assist_percent_actual = 20;
 uint8_t ui8_assist_percent_wanted = 20;
+uint8_t ui8_walk_assist = 0;
 uint8_t PAS_act = 3; //recent PAS direction reading
 uint8_t PAS_is_active = 0;
 uint16_t ui16_sum_torque = 0;
