@@ -203,7 +203,8 @@ void display_update() {
 		    		((ui8_crc ^ 7) == ui8_rx_buffer [5]) ||
 		    		((ui8_crc ^ 8) == ui8_rx_buffer [5]) ||
 		    		((ui8_crc ^ 14) == ui8_rx_buffer [5]) ||
-				((ui8_crc ^ 9) == ui8_rx_buffer [5])) // CRC LCD3
+				((ui8_crc ^ 9) == ui8_rx_buffer [5])) ||// CRC LCD3
+				((ui8_crc ^ 23) == ui8_rx_buffer[5])) // CRC of an LCD8
 		{
 			// added by DerBastler Light On/Off 
 			lcd_configuration_variables.ui8_light_On = ui8_rx_buffer [1] & 128;
