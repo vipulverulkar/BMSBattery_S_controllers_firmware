@@ -161,6 +161,7 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 	ui8_moving_indication = 0;
 	// check for brake --> set regen current
 	if (brake_is_set()) {
+		ui8_cruiseThrottleSetting = 0;
 		ui8_moving_indication |= (32);
 		controll_state_temp = 255;
 		//Current target based on regen assist level
@@ -171,10 +172,11 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 
 			//Current target based on linear input on pad X4
 		} else {
-			ui8_temp = map(ui16_x4_value >> 2, ui8_throttle_min_range, ui8_throttle_max_range, 0, 100); //map regen throttle to limits
+			ui8_temp = map(ui16_x4_value >> 2, ui8_throttle_min_range, ui8_throttle_max_range, 0, 128); //map regen throttle to limits
+			//ui8_temp = map(ui16_momentary_throttle, ui8_throttle_min_range, ui8_throttle_max_range, 0, 128); //use throttle to vary regen when braking
 			controll_state_temp -= 2;
 		}
-		float_temp = (float) ui8_temp * (float) (ui16_regen_current_max_value) / 100.0;
+		float_temp = ((ui8_temp * ui16_regen_current_max_value) >> 7);
 
 		//Current target gets ramped down with speed
 		if (((ui16_aca_flags & SPEED_INFLUENCES_REGEN) == SPEED_INFLUENCES_REGEN) && (ui16_virtual_erps_speed < ((ui16_speed_kph_to_erps_ratio * ((uint16_t) ui8_speedlimit_kph)) / 100))) {
@@ -217,21 +219,25 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 				ui8_temp += ui8_assist_dynamic_percent_addon;
 			}
 
-			if (ui16_time_ticks_between_pas_interrupt_smoothed > ui16_s_ramp_end && ui16_time_ticks_between_pas_interrupt_smoothed < ui16_s_ramp_start) { //ramp end usually 1500
+			if (ui16_time_ticks_between_pas_interrupt_smoothed > ui16_s_ramp_end) { //ramp end usually 1500
 				//if you are pedaling slower than defined ramp end
 				//but faster than ramp start
+				// if pedaling slower then ramp start, the current target stays at current cal b
 				//current is proportional to cadence
+				if (ui16_time_ticks_between_pas_interrupt_smoothed < ui16_s_ramp_start) {
 					uint32_current_target = (ui8_temp * (ui16_battery_current_max_value) / 100);
 					float_temp = 1.0 - (((float)(ui16_time_ticks_between_pas_interrupt_smoothed - ui16_s_ramp_end)) / ((float)(ui16_s_ramp_start - ui16_s_ramp_end)));
 					uint32_current_target = ((uint16_t)(uint32_current_target) * (uint16_t)(float_temp * 100.0)) / 100 + ui16_current_cal_b;
 					controll_state_temp += 1;
 					ui8_moving_indication |= (16);
-
+					ui8_cruiseThrottleSetting = 0; //no cruise when pedalling, just like stock
+				}
 				//in you are pedaling faster than in ramp end defined, desired battery current level is set,
 			} else {
 				uint32_current_target = (ui8_temp * (ui16_battery_current_max_value) / 100 + ui16_current_cal_b);
 				controll_state_temp += 2;
 				ui8_moving_indication |= (16);
+				ui8_cruiseThrottleSetting = 0; //no cruise when pedalling, just like stock
 			}
 		} else { // torque sensor mode
 
@@ -256,15 +262,24 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 		}
 
 
-		float_temp = 0.0;
+		//float_temp = 0.0;
 		// throttle / torquesensor override following
 		if (((ui16_aca_flags & TQ_SENSOR_MODE) != TQ_SENSOR_MODE)) {
-			if (ui8_speedlimit_kph > 1){
+			if (ui8_speedlimit_kph > 1) {
 				// do not apply throttle at very low speed limits (technical restriction, speelimit can and should never be lover than 1)
-				float_temp = (float) ui16_sum_throttle;
+				if (ui8_cruiseThrottleSetting >= 25) {
+					ui8_moving_indication |= (8);
+					float_temp = (float)ui8_cruiseThrottleSetting;
+				}
+				else {
+					ui8_cruiseThrottleSetting = 0;
+					float_temp = (float)ui16_momentary_throttle; // or ui16_sum_throttle
+				}
 			}
 		} else {
-			float_temp = (float) ui16_momentary_throttle; // or ui16_sum_throttle
+			
+			float_temp = (float)ui16_momentary_throttle; // or ui16_sum_throttle
+
 			//float_temp *= (1 - (float) ui16_virtual_erps_speed / 2 / (float) (ui16_speed_kph_to_erps_ratio/100 * ((float) ui8_speedlimit_kph))); //ramp down linear with speed. Risk: Value is getting negative if speed>2*speedlimit
 			// above line wasnt working anyway before, so I commented it out, but it should be fixed with the division by 100
 		}

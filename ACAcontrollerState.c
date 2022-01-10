@@ -140,6 +140,8 @@ uint8_t light_stat = 0;
 uint8_t walk_stat = 0;
 
 uint8_t ui8_moving_indication = 0;
+uint8_t ui8_cruiseThrottleSetting = 0;
+uint8_t ui8_cruiseMinThrottle = 0;
 
 void controllerstate_init(void) {
 	uint8_t di;
@@ -157,6 +159,7 @@ void controllerstate_init(void) {
 	ui8_a_s_assistlevels[5] =LEVEL_5;
 	ui16_aca_flags = ACA;
 	ui16_aca_experimental_flags = ACA_EXPERIMENTAL;
+	ui16_aca_experimental_flags |= 32; //sine wave table used (useful when not able to select in app)
 	ui8_s_battery_voltage_calibration = ADC_BATTERY_VOLTAGE_K;
 	ui8_s_battery_voltage_min = BATTERY_VOLTAGE_MIN_VALUE;
 	ui8_s_battery_voltage_max = BATTERY_VOLTAGE_MAX_VALUE;

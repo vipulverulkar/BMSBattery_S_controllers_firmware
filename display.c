@@ -52,6 +52,7 @@ uint8_t ui8_rx_buffer_counter = 0;
 uint8_t ui8_byte_received;
 
 uint8_t ui8_UARTCounter = 0;
+uint8_t ui8_cruiseHasBeenLow;
 
 volatile struc_lcd_configuration_variables lcd_configuration_variables;
 
@@ -136,7 +137,12 @@ void send_message() {
 	// each unit of B8 = 0.25A
 
 
-	ui8_tx_buffer [8] = (uint8_t) ((((ui16_BatteryCurrent - ui16_current_cal_b + 1) << 2)*10) / ui8_current_cal_a);
+	if (ui16_BatteryCurrent <= ui16_current_cal_b + 2) { //avoid full power displayed at regen and avoid small watts being displayed when the bike is just standing still
+		ui8_tx_buffer[8] = 0;
+	}
+	else {
+		ui8_tx_buffer[8] = (uint8_t)((((ui16_BatteryCurrent - ui16_current_cal_b - 1) << 2) * 10) / ui8_current_cal_a);
+	}
 	// B9: motor temperature
 	ui8_tx_buffer [9] = i8_motor_temperature - 15; //according to documentation at endless sphere
 	// B10 and B11: 0
@@ -203,7 +209,8 @@ void display_update() {
 		    		((ui8_crc ^ 7) == ui8_rx_buffer [5]) ||
 		    		((ui8_crc ^ 8) == ui8_rx_buffer [5]) ||
 		    		((ui8_crc ^ 14) == ui8_rx_buffer [5]) ||
-				((ui8_crc ^ 9) == ui8_rx_buffer [5])) // CRC LCD3
+				((ui8_crc ^ 9) == ui8_rx_buffer [5]) ||// CRC LCD3
+				((ui8_crc ^ 23) == ui8_rx_buffer[5])) // CRC of an LCD8
 		{
 			// added by DerBastler Light On/Off 
 			lcd_configuration_variables.ui8_light_On = ui8_rx_buffer [1] & 128;
@@ -216,6 +223,18 @@ void display_update() {
 			
 			lcd_configuration_variables.ui8_max_speed = 10 + ((ui8_rx_buffer [2] & 248) >> 3) | (ui8_rx_buffer [4] & 32);
 			lcd_configuration_variables.ui8_wheel_size = ((ui8_rx_buffer [4] & 192) >> 6) | ((ui8_rx_buffer [2] & 7) << 2);
+
+			if (ui8_rx_buffer[8] == 0) {
+				ui8_cruiseHasBeenLow = 1;
+			}
+			if (lcd_configuration_variables.ui8_assist_level != (ui8_assistlevel_global & 15)) { //cruise disables when switching assist levels, just like stock
+				ui8_cruiseThrottleSetting = 0;
+			}
+			else if (ui8_rx_buffer[8] == 16 && lcd_configuration_variables.ui8_assist_level != 0 && ui8_cruiseThrottleSetting == 0 && ui8_cruiseHasBeenLow == 1) {
+				ui8_cruiseHasBeenLow = 0;
+				ui8_cruiseThrottleSetting = ui16_sum_throttle;
+				ui8_cruiseMinThrottle = ui8_cruiseThrottleSetting;
+			}
 
 			lcd_configuration_variables.ui8_p1 = ui8_rx_buffer[3];
 			lcd_configuration_variables.ui8_p2 = ui8_rx_buffer[4] & 0x07;
