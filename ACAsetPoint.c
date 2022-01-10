@@ -222,6 +222,7 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 			if (ui16_time_ticks_between_pas_interrupt_smoothed > ui16_s_ramp_end) { //ramp end usually 1500
 				//if you are pedaling slower than defined ramp end
 				//but faster than ramp start
+				// if pedaling slower then ramp start, the current target stays at current cal b
 				//current is proportional to cadence
 				if (ui16_time_ticks_between_pas_interrupt_smoothed < ui16_s_ramp_start) {
 					uint32_current_target = (ui8_temp * (ui16_battery_current_max_value) / 100);
