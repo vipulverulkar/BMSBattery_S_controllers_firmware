@@ -209,6 +209,16 @@ void updateRequestedTorque(void) {
 		ui16_sum_torque /= NUMBER_OF_PAS_MAGS;
 
 	}
+
+	//For cruise behaviour -> cruise is disabled on these conditions
+	if (ui8_cruiseThrottleSetting > 0) {
+		if (ui16_sum_throttle > ui8_cruiseMinThrottle + 5) {
+			ui8_cruiseThrottleSetting = 0;
+		}
+		if (ui16_sum_throttle < ui8_cruiseMinThrottle) {
+			ui8_cruiseMinThrottle = ui16_sum_throttle;
+		}
+	}
 }
 
 void checkPasInActivity(void) {

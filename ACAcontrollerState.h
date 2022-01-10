@@ -138,6 +138,8 @@ extern uint8_t light_stat;
 extern uint8_t walk_stat;
 
 extern uint8_t ui8_moving_indication;
+extern uint8_t ui8_cruiseThrottleSetting;
+extern uint8_t ui8_cruiseMinThrottle;
 
 void controllerstate_init(void);
 
