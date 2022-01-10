@@ -219,17 +219,18 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 				ui8_temp += ui8_assist_dynamic_percent_addon;
 			}
 
-			if (ui16_time_ticks_between_pas_interrupt_smoothed > ui16_s_ramp_end && ui16_time_ticks_between_pas_interrupt_smoothed < ui16_s_ramp_start) { //ramp end usually 1500
+			if (ui16_time_ticks_between_pas_interrupt_smoothed > ui16_s_ramp_end) { //ramp end usually 1500
 				//if you are pedaling slower than defined ramp end
 				//but faster than ramp start
 				//current is proportional to cadence
+				if (ui16_time_ticks_between_pas_interrupt_smoothed < ui16_s_ramp_start) {
 					uint32_current_target = (ui8_temp * (ui16_battery_current_max_value) / 100);
 					float_temp = 1.0 - (((float)(ui16_time_ticks_between_pas_interrupt_smoothed - ui16_s_ramp_end)) / ((float)(ui16_s_ramp_start - ui16_s_ramp_end)));
 					uint32_current_target = ((uint16_t)(uint32_current_target) * (uint16_t)(float_temp * 100.0)) / 100 + ui16_current_cal_b;
 					controll_state_temp += 1;
 					ui8_moving_indication |= (16);
 					ui8_cruiseThrottleSetting = 0; //no cruise when pedalling, just like stock
-
+				}
 				//in you are pedaling faster than in ramp end defined, desired battery current level is set,
 			} else {
 				uint32_current_target = (ui8_temp * (ui16_battery_current_max_value) / 100 + ui16_current_cal_b);
