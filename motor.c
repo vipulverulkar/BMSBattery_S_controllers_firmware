@@ -45,6 +45,9 @@ int8_t hall_sensors_last = 0;
 uint16_t ui16_ADC_iq_current_accumulated = 4096;
 uint16_t ui16_iq_current_ma = 0;
 
+uint8_t ui8_temp = 0;
+uint8_t ui8_allowMoreAdvance = 0;
+
 void TIM1_UPD_OVF_TRG_BRK_IRQHandler(void) __interrupt(TIM1_UPD_OVF_TRG_BRK_IRQHANDLER) {
 	adc_trigger();
 	hall_sensors_read_and_action();
@@ -161,14 +164,41 @@ void updateCorrection() {
 		ui8_position_correction_value = 127; //set advance angle to neutral value
 		return;
 	}
-
+	/* //Remove the /* when wanting to use field weakening
+	//Field weakening, q current is regulated to a minus value in field weakening mode instead of zero, resulting in higher speed
+	if (ui16_momentary_throttle > 191 && ui16_setpoint == 255 && ui16_motor_speed_erps > 110 && ui16_BatteryCurrent < (140+ui16_current_cal_b)) {
+	//if (ui8_assistlevel_global == 5 && ui16_momentary_throttle > 191 && ui16_setpoint == 255 && ui16_motor_speed_erps > 110 && ui16_BatteryCurrent < (140+ui16_current_cal_b)) {
+		ui8_temp = (ui16_momentary_throttle - 192); //or ui8_temp = (ui16_momentary_throttle - 192) >> 1;
+		//or ui8_temp = (ui16_momentary_throttle - 192) >> 2 //more options for the amount of field weakening you want
+		if (ui8_temp > ui8_allowMoreAdvance) {
+			ui8_allowMoreAdvance++;
+		}
+		else if (ui8_temp < ui8_allowMoreAdvance) {
+			ui8_allowMoreAdvance--;
+		}
+	}
+	else if(ui8_allowMoreAdvance > 0) {
+		ui8_allowMoreAdvance--;
+	}
+		//This if with iq current not divided by 4 gives more field weakening current options
+	if (ui16_motor_speed_erps > 3 && ui16_BatteryCurrent > ui16_current_cal_b + 3) { //normal riding
+		if (ui16_ADC_iq_current > (513 - ui8_allowMoreAdvance) && ui8_position_correction_value < 143) { //q current > 128 original
+			ui8_position_correction_value++;
+		}
+		else if (ui16_ADC_iq_current < (510 - ui8_allowMoreAdvance) && ui8_position_correction_value > 111) { //q current > 126 original
+			ui8_position_correction_value--;
+		}
+	}
+	//*/
+	//* Remove first slash when wanting to use field weakening
 	if (ui16_motor_speed_erps > 3 && ui16_BatteryCurrent > ui16_current_cal_b + 3) { //normal riding,
 		if (ui16_ADC_iq_current >> 2 > 128 && ui8_position_correction_value < 143) {
 			ui8_position_correction_value++;
 		} else if (ui16_ADC_iq_current >> 2 < 126 && ui8_position_correction_value > 111) {
 			ui8_position_correction_value--;
 		}
-	} else if (ui16_motor_speed_erps > 3 && ui16_BatteryCurrent < ui16_current_cal_b - 3) {//regen
+	}//*/ 
+	else if (ui16_motor_speed_erps > 3 && ui16_BatteryCurrent < ui16_current_cal_b - 3) {//regen
 		ui8_position_correction_value = 127; //set advance angle to neutral value
 	} else if (ui16_motor_speed_erps < 3) {
 		ui8_position_correction_value = 127; //reset advance angle at very low speed)
