@@ -208,7 +208,7 @@ void display_update() {
 		    		((ui8_crc ^ 7) == ui8_rx_buffer [5]) ||
 		    		((ui8_crc ^ 8) == ui8_rx_buffer [5]) ||
 		    		((ui8_crc ^ 14) == ui8_rx_buffer [5]) ||
-				((ui8_crc ^ 9) == ui8_rx_buffer [5])) ||// CRC LCD3
+				((ui8_crc ^ 9) == ui8_rx_buffer [5]) ||// CRC LCD3
 				((ui8_crc ^ 23) == ui8_rx_buffer[5])) // CRC of an LCD8
 		{
 			// added by DerBastler Light On/Off 
@@ -223,7 +223,15 @@ void display_update() {
 			lcd_configuration_variables.ui8_max_speed = 10 + ((ui8_rx_buffer [2] & 248) >> 3) | (ui8_rx_buffer [4] & 32);
 			lcd_configuration_variables.ui8_wheel_size = ((ui8_rx_buffer [4] & 192) >> 6) | ((ui8_rx_buffer [2] & 7) << 2);
 
-			lcd_configuration_variables.ui8_p1 = ui8_rx_buffer[3];
+			if (lcd_configuration_variables.ui8_assist_level != (ui8_assistlevel_global && 15)) { //cruise disables when switching assist levels, just like stock
+				ui8_cruiseThrottleSetting = 0;
+			}
+			else if (ui8_rx_buffer[8] == 0x10 && lcd_configuration_variables.ui8_assist_level != 0 && ui8_cruiseThrottleSetting == 0) {
+				ui8_cruiseThrottleSetting = ui16_sum_throttle;
+				ui8_cruiseMinThrottle = ui8_cruiseThrottleSetting;
+			}
+
+			/*lcd_configuration_variables.ui8_p1 = ui8_rx_buffer[3];
 			lcd_configuration_variables.ui8_p2 = ui8_rx_buffer[4] & 0x07;
 			lcd_configuration_variables.ui8_p3 = ui8_rx_buffer[4] & 0x08;
 			lcd_configuration_variables.ui8_p4 = ui8_rx_buffer[4] & 0x10;
@@ -235,7 +243,7 @@ void display_update() {
 			lcd_configuration_variables.ui8_c5 = (ui8_rx_buffer[7] & 0x0F);
 			lcd_configuration_variables.ui8_c12 = (ui8_rx_buffer[9] & 0x0F);
 			lcd_configuration_variables.ui8_c13 = (ui8_rx_buffer[10] & 0x1C) >> 2;
-			lcd_configuration_variables.ui8_c14 = (ui8_rx_buffer[7] & 0x60) >> 5;
+			lcd_configuration_variables.ui8_c14 = (ui8_rx_buffer[7] & 0x60) >> 5;*/
 
 			digestLcdValues();
 			send_message();

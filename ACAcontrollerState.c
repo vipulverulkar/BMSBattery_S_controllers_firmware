@@ -140,6 +140,8 @@ uint8_t light_stat = 0;
 uint8_t walk_stat = 0;
 
 uint8_t ui8_moving_indication = 0;
+uint8_t ui8_cruiseThrottleSetting = 0;
+uint8_t ui8_cruiseMinThrottle = 0;
 
 void controllerstate_init(void) {
 	uint8_t di;
