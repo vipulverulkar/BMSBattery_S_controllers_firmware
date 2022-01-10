@@ -172,11 +172,11 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 
 			//Current target based on linear input on pad X4
 		} else {
-			ui8_temp = map(ui16_x4_value >> 2, ui8_throttle_min_range, ui8_throttle_max_range, 0, 128); //map regen throttle to limits
-			//ui8_temp = map(ui16_momentary_throttle, ui8_throttle_min_range, ui8_throttle_max_range, 0, 128); //use throttle to vary regen when braking
+			//ui8_temp = map(ui16_x4_value >> 2, ui8_throttle_min_range, ui8_throttle_max_range, 0, 128); //map regen throttle to limits
+			ui8_temp = map(ui16_momentary_throttle, ui8_throttle_min_range, ui8_throttle_max_range, 0, 128); //use throttle to vary regen when braking
 			controll_state_temp -= 2;
 		}
-		float_temp = (float) ui8_temp * (ui16_regen_current_max_value >> 7);
+		float_temp = ((ui8_temp * ui16_regen_current_max_value) >> 7);
 
 		//Current target gets ramped down with speed
 		if (((ui16_aca_flags & SPEED_INFLUENCES_REGEN) == SPEED_INFLUENCES_REGEN) && (ui16_virtual_erps_speed < ((ui16_speed_kph_to_erps_ratio * ((uint16_t) ui8_speedlimit_kph)) / 100))) {
@@ -262,23 +262,23 @@ uint16_t aca_setpoint(uint16_t ui16_time_ticks_between_pas_interrupt, uint16_t s
 		}
 
 
-		float_temp = 0.0;
+		//float_temp = 0.0;
 		// throttle / torquesensor override following
 		if (((ui16_aca_flags & TQ_SENSOR_MODE) != TQ_SENSOR_MODE)) {
-			if (ui8_speedlimit_kph > 1){
+			if (ui8_speedlimit_kph > 1) {
 				// do not apply throttle at very low speed limits (technical restriction, speelimit can and should never be lover than 1)
-				float_temp = (float) ui16_sum_throttle;
+				if (ui8_cruiseThrottleSetting >= 25) {
+					ui8_moving_indication |= (8);
+					float_temp = (float)ui8_cruiseThrottleSetting;
+				}
+				else {
+					ui8_cruiseThrottleSetting = 0;
+					float_temp = (float)ui16_momentary_throttle; // or ui16_sum_throttle
+				}
 			}
 		} else {
 			
-			if (ui8_cruiseThrottleSetting >= 25) {
-				ui8_moving_indication |= (8);
-				float_temp = (float)ui8_cruiseThrottleSetting;
-			}
-			else {
-				ui8_cruiseThrottleSetting = 0;
-				float_temp = (float)ui16_momentary_throttle; // or ui16_sum_throttle
-			}
+			float_temp = (float)ui16_momentary_throttle; // or ui16_sum_throttle
 
 			//float_temp *= (1 - (float) ui16_virtual_erps_speed / 2 / (float) (ui16_speed_kph_to_erps_ratio/100 * ((float) ui8_speedlimit_kph))); //ramp down linear with speed. Risk: Value is getting negative if speed>2*speedlimit
 			// above line wasnt working anyway before, so I commented it out, but it should be fixed with the division by 100
